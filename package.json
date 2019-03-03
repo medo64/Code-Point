@@ -1,0 +1,63 @@
+{
+    "name": "code-point",
+    "displayName": "Character Code Point",
+    "description": "Displays character code point in status bar.",
+    "icon": "ICON.png",
+    "version": "1.0.0",
+    "publisher": "medo64",
+    "galleryBanner": {
+        "color": "#373E6D",
+        "theme": "dark"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/medo64/code-point/issues/",
+        "email": "jmedved@jmedved.com"
+    },
+    "homepage": "https://medo64.com/code-point/",
+    "repository": {
+        "url": "https://github.com/medo64/code-point/"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "ASCII",
+        "char",
+        "code point",
+        "codepoint",
+        "unicode"
+    ],
+    "engines": {
+        "vscode": "^1.31.0"
+    },
+    "main": "./out/extension",
+    "activationEvents": [
+        "*"
+    ],
+    "contributes": {
+        "configuration": [
+            {
+                "type": "object",
+                "title": "Character Code Point",
+                "properties": {
+                    "codepoint.decimal": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "If set, code point will be shown as decimal instead of hexadecimal number."
+                    }
+                }
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "eslint": "^4.19.1",
+        "vsce": "^1.50.0",
+        "vscode": "^1.1.30"
+    }
+}
