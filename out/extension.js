@@ -1,11 +1,28 @@
 'use strict'
 
 const vscode = require('vscode')
+const fs = require("fs");
+const path = require("path");
 
 
 function activate(context) {
     var statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 28433)
     statusBarItem.tooltip = "Character code point"
+
+    var unicodeDescriptions = {};
+
+    let unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
+    fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
+        if (!err) {
+            var unicodeDictionaryObject = JSON.parse(data)
+            for (let i=0; i<unicodeDictionaryObject.length; i++) {
+                let entry = unicodeDictionaryObject[i]
+                let code = entry.code
+                let description = entry.description
+                unicodeDescriptions[code] = description
+            }
+        }
+    });
 
     var showAsDecimal
 
@@ -36,19 +53,25 @@ function activate(context) {
         }
 
         let selectionCodePoint = selectionText.codePointAt(0)
+        let selectionCodePointAsHex = selectionCodePoint.toString(16).toUpperCase()
 
+        let text
         if (showAsDecimal) {
-            statusBarItem.text = selectionCodePoint.toString()
+            text = selectionCodePoint.toString()
+        } else if (selectionCodePoint <= 0xFF) {
+            text = "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+        } else if (selectionCodePoint <= 0xFFFF) {
+            text = "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
         } else {
-            let hex = selectionCodePoint.toString(16).toUpperCase()
-            if (selectionCodePoint <= 0xFF) {
-                hex = "0".repeat(2 - hex.length) + hex
-            } else if (selectionCodePoint <= 0xFFFF) {
-                hex = "0".repeat(4 - hex.length) + hex
-            }
-            statusBarItem.text = "0x" + hex
+            text = "0x" + selectionCodePointAsHex
         }
 
+        let lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+        let description = unicodeDescriptions[lookupCode]
+        if (!description) { description = "Character code point" }
+
+        statusBarItem.text = text
+        statusBarItem.tooltip = description
         statusBarItem.show() //just in case it was hidden before
     }
 
