@@ -48,6 +48,13 @@
                     }
                 }
             }
+        ],
+        "commands": [
+            {
+                "command": "codepoint.describe",
+                "title": "Unicode Details",
+                "category": "Code Point"
+            }
         ]
     },
     "scripts": {

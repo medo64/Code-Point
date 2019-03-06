@@ -7,6 +7,7 @@ const path = require("path");
 
 function activate(context) {
     var statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 28433)
+    statusBarItem.command = "codepoint.describe"
     statusBarItem.tooltip = "Character code point"
 
     var unicodeDescriptions = {};
@@ -21,6 +22,16 @@ function activate(context) {
                 const description = entry.description
                 unicodeDescriptions[code] = description
             }
+        }
+    });
+
+    var lookupCode
+
+    const commandRegistration = vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
+        if (lookupCode == null) {
+            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
+        } else {
+            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
         }
     });
 
@@ -57,6 +68,8 @@ function activate(context) {
     }
 
     function updateStatusbar(editor) {
+        lookupCode = null
+
         if (!editor) {
             statusBarItem.hide()
             return
@@ -93,9 +106,9 @@ function activate(context) {
             text = "0x" + selectionCodePointAsHex
         }
 
-        const lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+        lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
         let description = unicodeDescriptions[lookupCode]
-        if (!description) { description = "Character code point" }
+        if (!description) { description = "Unrecognized character code point" }
 
         statusBarItem.text = text
         statusBarItem.tooltip = description
