@@ -27,7 +27,7 @@ function activate(context) {
 
     var lookupCode
 
-    const commandRegistration = vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
+    vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
         if (lookupCode == null) {
             vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
         } else {
