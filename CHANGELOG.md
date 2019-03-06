@@ -1,5 +1,10 @@
 # Change Log
 
-## [1.0.0] - 2019-03-03
+## [1.1.0]
+
+### Changed
+- Added click on statusbar action
+
+## [1.0.0]
 
 - Initial release
