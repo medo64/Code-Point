@@ -27,6 +27,35 @@ function activate(context) {
     var showAsDecimal
 
 
+    function getCodePoint(document, selection) {
+        //get code point for character after selection
+        const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 2)))
+        const selectionText = document.getText(selectionRange)
+        if (selectionText) { return selectionText.codePointAt(0) }
+
+        //get code point for character before selection, if it's the last character
+        if (selection.isEmpty) {
+            const selectionLine = document.lineAt(selection.active)
+            if ((selectionLine.range.end.character > 0) && (selection.active.character >= selectionLine.range.end.character)) {
+                const backwardSelectionStart = new vscode.Position(selection.active.line, (selectionLine.range.end.character >= 2) ? selectionLine.range.end.character - 2 : selectionLine.range.end.character - 1)
+                const backwardSelectionRange = new vscode.Range(backwardSelectionStart, selection.active)
+                const backwardSelectionText = document.getText(backwardSelectionRange)
+                if (backwardSelectionText) {
+                    const backwardCodePoint = backwardSelectionText.codePointAt(0)
+                    if (backwardSelectionText.length == 1) { //only single character
+                        return backwardSelectionText.codePointAt(0)
+                    } else if (backwardCodePoint >= 0x10000) { //check if 2-char codepoint applies
+                        return backwardCodePoint
+                    } else { //ignore first character
+                        return backwardSelectionText.codePointAt(1)
+                    }
+                }
+            }
+        }
+
+        return null
+    }
+
     function updateStatusbar(editor) {
         if (!editor) {
             statusBarItem.hide()
@@ -39,21 +68,19 @@ function activate(context) {
             return
         }
 
-        let selection = editor.selection.active
+        const selection = editor.selection
         if (!selection) {
             statusBarItem.hide()
             return
         }
 
-        let selectionRange = new vscode.Range(selection, selection.translate(0, 2))
-        let selectionText = document.getText(selectionRange)
-        if (!selectionText) {
+        const selectionCodePoint = getCodePoint(document, selection)
+        if (!selectionCodePoint) {
             statusBarItem.hide()
             return
         }
 
-        let selectionCodePoint = selectionText.codePointAt(0)
-        let selectionCodePointAsHex = selectionCodePoint.toString(16).toUpperCase()
+        const selectionCodePointAsHex = selectionCodePoint.toString(16).toUpperCase()
 
         let text
         if (showAsDecimal) {
