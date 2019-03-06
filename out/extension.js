@@ -11,14 +11,14 @@ function activate(context) {
 
     var unicodeDescriptions = {};
 
-    let unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
+    const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
     fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
         if (!err) {
             var unicodeDictionaryObject = JSON.parse(data)
             for (let i=0; i<unicodeDictionaryObject.length; i++) {
-                let entry = unicodeDictionaryObject[i]
-                let code = entry.code
-                let description = entry.description
+                const entry = unicodeDictionaryObject[i]
+                const code = entry.code
+                const description = entry.description
                 unicodeDescriptions[code] = description
             }
         }
@@ -93,7 +93,7 @@ function activate(context) {
             text = "0x" + selectionCodePointAsHex
         }
 
-        let lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+        const lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
         let description = unicodeDescriptions[lookupCode]
         if (!description) { description = "Character code point" }
 
