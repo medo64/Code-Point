@@ -16,7 +16,7 @@ function activate(context) {
     fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
         if (!err) {
             var unicodeDictionaryObject = JSON.parse(data)
-            for (let i=0; i<unicodeDictionaryObject.length; i++) {
+            for (let i = 0; i < unicodeDictionaryObject.length; i++) {
                 const entry = unicodeDictionaryObject[i]
                 const code = entry.code
                 const description = entry.description
@@ -35,7 +35,7 @@ function activate(context) {
         }
     });
 
-    var showAsDecimal
+    var statusbarStyle
 
 
     function getCodePoint(document, selection) {
@@ -95,23 +95,31 @@ function activate(context) {
 
         const selectionCodePointAsHex = selectionCodePoint.toString(16).toUpperCase()
 
-        let text
-        if (showAsDecimal) {
-            text = selectionCodePoint.toString()
-        } else if (selectionCodePoint <= 0xFF) {
-            text = "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+        const decimal = selectionCodePoint.toString()
+        let hexadecimal
+        if (selectionCodePoint <= 0xFF) {
+            hexadecimal = "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
         } else if (selectionCodePoint <= 0xFFFF) {
-            text = "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+            hexadecimal = "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
         } else {
-            text = "0x" + selectionCodePointAsHex
+            hexadecimal = "0x" + selectionCodePointAsHex
         }
 
         lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
-        let description = unicodeDescriptions[lookupCode]
+        let title = unicodeDescriptions[lookupCode]
+        let description = title
+        if (!title) { title = hexadecimal }
         if (!description) { description = "Unrecognized character code point" }
 
-        statusBarItem.text = text
-        statusBarItem.tooltip = description
+        if (statusbarStyle.startsWith("dec")) {
+            statusBarItem.text = decimal;
+        } else if (statusbarStyle.startsWith("hex")) {
+            statusBarItem.text = hexadecimal
+        } else {
+            statusBarItem.text = title
+        }
+
+        statusBarItem.tooltip = description + "\n\n" + hexadecimal + " (" + decimal + ")"
         statusBarItem.show() //just in case it was hidden before
     }
 
@@ -120,10 +128,10 @@ function activate(context) {
         var anyChanges = false
 
         var customConfiguration = vscode.workspace.getConfiguration('codepoint', null)
-        var newShowAsDecimal = customConfiguration.get('decimal', false)
 
-        if (showAsDecimal !== newShowAsDecimal) {
-            showAsDecimal = newShowAsDecimal
+        var newStatusbarStyle = customConfiguration.get('statusbar', "hexadecimal").toLowerCase()
+        if (statusbarStyle !== newStatusbarStyle) {
+            statusbarStyle = newStatusbarStyle
             anyChanges = true
         }
 

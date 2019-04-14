@@ -41,10 +41,15 @@
                 "type": "object",
                 "title": "Character Code Point",
                 "properties": {
-                    "codepoint.decimal": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "If set, code point will be shown as decimal instead of hexadecimal number."
+                    "codepoint.statusbar": {
+                        "type": "string",
+                        "default": "hexadecimal",
+                        "enum": [
+                            "decimal",
+                            "hexadecimal",
+                            "description"
+                        ],
+                        "description": "Determines what gets shown in statusbar by default."
                     }
                 }
             }
