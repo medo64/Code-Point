@@ -122,7 +122,12 @@ function activate(context) {
         }
 
         statusBarItem.tooltip = "U+" + lookupCode + ": " + description + "\n\n" + hexadecimal + " (" + decimal + ")"
-        statusBarItem.show() //just in case it was hidden before
+
+        if (statusbarStyle.startsWith("none")) {
+            statusBarItem.hide() //just in case we have extension loaded but don't want output
+        } else {
+            statusBarItem.show() //just in case it was hidden before
+        }
     }
 
 
