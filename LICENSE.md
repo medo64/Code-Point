@@ -1,6 +1,6 @@
 ## The MIT License ##
 
-Copyright Josip Medved <jmedved@jmedved.com>
+Copyright 2019 Josip Medved <jmedved@jmedved.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -69,4 +69,3 @@ Except as contained in this notice, the name of a copyright holder
 shall not be used in advertising or otherwise to promote the sale,
 use or other dealings in these Data Files or Software without prior
 written authorization of the copyright holder.
-

@@ -1,5 +1,10 @@
 # Change Log
 
+# [1.2.0]
+
+### Changed
+- More customizations to statusbar display
+
 ## [1.1.1]
 
 ### Fixed
