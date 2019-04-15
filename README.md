@@ -17,4 +17,9 @@ get plenty more Unicode related information provided by [compart](https://www.co
 
 This extension contributes the following settings:
 
-* `codepoint.decimal`: If true, code point will be shown as decimal instead of hexadecimal number.
+* `codepoint.statusbar`: Determines what will be shown in statusbar:
+  * `none`: Nothing;
+  * `decimal`: Decimal value of code point (e.g. `77`);
+  * `hexadecimal`: Hexadecimal value of code point (e.g. `0x4D`);
+  * `unicode`: Unicode code point (e.g. `U+004D`);
+  * `description`: Full description is shown (e.g. `LATIN CAPITAL LETTER M`).
