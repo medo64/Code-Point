@@ -115,11 +115,13 @@ function activate(context) {
             statusBarItem.text = decimal;
         } else if (statusbarStyle.startsWith("hex")) {
             statusBarItem.text = hexadecimal
-        } else {
+        } else if (statusbarStyle.startsWith("description")) {
             statusBarItem.text = title
+        } else {
+            statusBarItem.text = "U+" + lookupCode
         }
 
-        statusBarItem.tooltip = description + "\n\n" + hexadecimal + " (" + decimal + ")"
+        statusBarItem.tooltip = "U+" + lookupCode + ": " + description + "\n\n" + hexadecimal + " (" + decimal + ")"
         statusBarItem.show() //just in case it was hidden before
     }
 

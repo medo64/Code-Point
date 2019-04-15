@@ -47,6 +47,7 @@
                         "enum": [
                             "decimal",
                             "hexadecimal",
+                            "unicode",
                             "description"
                         ],
                         "description": "Determines what gets shown in statusbar by default."
