@@ -88,7 +88,7 @@ function activate(context) {
         }
 
         const selectionCodePoint = getCodePoint(document, selection)
-        if (!selectionCodePoint) {
+        if (selectionCodePoint === undefined) {
             statusBarItem.hide()
             return
         }
