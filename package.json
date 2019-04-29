@@ -43,7 +43,7 @@
                 "properties": {
                     "codepoint.statusbar": {
                         "type": "string",
-                        "default": "hexadecimal",
+                        "default": "unicode",
                         "enum": [
                             "none",
                             "decimal",
