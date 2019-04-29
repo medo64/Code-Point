@@ -70,6 +70,11 @@ function activate(context) {
     function updateStatusbar(editor) {
         lookupCode = null
 
+        if (statusbarStyle === STATUSBARSTYLE_NONE) {
+            statusBarItem.hide() //just in case we have extension loaded but don't want output
+            return
+        }
+
         if (!editor) {
             statusBarItem.hide()
             return
@@ -111,32 +116,51 @@ function activate(context) {
         if (!title) { title = hexadecimal }
         if (!description) { description = "Unrecognized character code point" }
 
-        if (statusbarStyle.startsWith("dec")) {
-            statusBarItem.text = decimal;
-        } else if (statusbarStyle.startsWith("hex")) {
-            statusBarItem.text = hexadecimal
-        } else if (statusbarStyle.startsWith("description")) {
-            statusBarItem.text = title
-        } else {
-            statusBarItem.text = "U+" + lookupCode
+        switch(statusbarStyle) {
+            case STATUSBARSTYLE_DECIMAL:
+                statusBarItem.text = decimal;
+                break
+            case STATUSBARSTYLE_HEXADECIMAL:
+                statusBarItem.text = hexadecimal
+                break
+            case STATUSBARSTYLE_DESCRIPTION:
+                statusBarItem.text = title
+                break
+            default:
+                statusBarItem.text = "U+" + lookupCode
+                break
         }
 
         statusBarItem.tooltip = "U+" + lookupCode + ": " + description + "\n\n" + hexadecimal + " (" + decimal + ")"
-
-        if (statusbarStyle.startsWith("none")) {
-            statusBarItem.hide() //just in case we have extension loaded but don't want output
-        } else {
-            statusBarItem.show() //just in case it was hidden before
-        }
+        statusBarItem.show() //just in case it was hidden before
     }
 
+
+    const STATUSBARSTYLE_NONE = -1
+    const STATUSBARSTYLE_DECIMAL = 0
+    const STATUSBARSTYLE_HEXADECIMAL = 1
+    const STATUSBARSTYLE_UNICODE = 2
+    const STATUSBARSTYLE_DESCRIPTION = 3
 
     function updateConfiguration() {
         var anyChanges = false
 
         var customConfiguration = vscode.workspace.getConfiguration('codepoint', null)
 
-        var newStatusbarStyle = customConfiguration.get('statusbar', "hexadecimal").toLowerCase()
+        const newStatusbarStyleAsText = customConfiguration.get('statusbar', "hexadecimal").toLowerCase()
+        var newStatusbarStyle
+        if (newStatusbarStyleAsText.startsWith("none") || (newStatusbarStyleAsText === "")) {
+            newStatusbarStyle = STATUSBARSTYLE_NONE
+        } else if (newStatusbarStyleAsText.startsWith("dec")) {
+            newStatusbarStyle = STATUSBARSTYLE_DECIMAL
+        } else if (newStatusbarStyleAsText.startsWith("hex")) {
+            newStatusbarStyle = STATUSBARSTYLE_HEXADECIMAL
+        } else if (newStatusbarStyleAsText.startsWith("desc")) {
+            newStatusbarStyle = STATUSBARSTYLE_DESCRIPTION
+        } else {
+            newStatusbarStyle = STATUSBARSTYLE_UNICODE
+        }
+
         if (statusbarStyle !== newStatusbarStyle) {
             statusbarStyle = newStatusbarStyle
             anyChanges = true
