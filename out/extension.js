@@ -53,6 +53,7 @@ function activate(context) {
     }
 
     var statusbarStyle
+    var statusbarStyleAsText
 
 
     function getCodePoint(document, selection) {
@@ -178,7 +179,8 @@ function activate(context) {
             newStatusbarStyle = STATUSBARSTYLE_UNICODE
         }
 
-        if (statusbarStyle !== newStatusbarStyle) {
+        if (statusbarStyleAsText !== newStatusbarStyleAsText) { //detect on text so it leaves statubar click functionality alone
+            statusbarStyleAsText = newStatusbarStyleAsText
             statusbarStyle = newStatusbarStyle
             anyChanges = true
         }
