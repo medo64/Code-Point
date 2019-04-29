@@ -26,14 +26,31 @@ function activate(context) {
     })
 
     var lookupCode
+    var doubleClickTimerId
 
     vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
-        if (lookupCode == null) {
-            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
+        if (doubleClickTimerId) { //if timer still exists, it's a double-click
+            clearTimeout(doubleClickTimerId) //cancel timer
+            doubleClickTimerId = undefined
+
+            updateStatusbar(vscode.window.activeTextEditor)
+            if (lookupCode == null) {
+                vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
+            } else {
+                vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
+            }
         } else {
-            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
+            doubleClickTimerId = setTimeout(nextStyle, 250); //do single-click once timer has elapsed
         }
     })
+
+    function nextStyle() {
+        clearTimeout(doubleClickTimerId) //cancel timer
+        doubleClickTimerId = undefined
+
+        statusbarStyle = (statusbarStyle + 1) % 4 //advance to next display style
+        updateStatusbar(vscode.window.activeTextEditor)
+    }
 
     var statusbarStyle
 
