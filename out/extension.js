@@ -1,8 +1,8 @@
 'use strict'
 
 const vscode = require('vscode')
-const fs = require("fs");
-const path = require("path");
+const fs = require("fs")
+const path = require("path")
 
 
 function activate(context) {
@@ -10,7 +10,7 @@ function activate(context) {
     statusBarItem.command = "codepoint.describe"
     statusBarItem.tooltip = "Character code point"
 
-    var unicodeDescriptions = {};
+    var unicodeDescriptions = {}
 
     const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
     fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
@@ -23,7 +23,7 @@ function activate(context) {
                 unicodeDescriptions[code] = description
             }
         }
-    });
+    })
 
     var lookupCode
 
@@ -33,7 +33,7 @@ function activate(context) {
         } else {
             vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
         }
-    });
+    })
 
     var statusbarStyle
 
@@ -118,7 +118,7 @@ function activate(context) {
 
         switch(statusbarStyle) {
             case STATUSBARSTYLE_DECIMAL:
-                statusBarItem.text = decimal;
+                statusBarItem.text = decimal
                 break
             case STATUSBARSTYLE_HEXADECIMAL:
                 statusBarItem.text = hexadecimal
