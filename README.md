@@ -8,8 +8,9 @@ This extension shows character code point in status bar.
 
 Shows character code point in hexadecimal or decimal notation.
 
-If more details about characters are desired, one can click on status bar and
-get plenty more Unicode related information provided by [compart](https://www.compart.com/en/unicode/).
+If more details about characters are desired, one can click on status bar to
+quickly switch display style or double-clic to get get plenty more Unicode
+related information provided by [compart](https://www.compart.com/en/unicode/).
 
 ![Screenshot](https://raw.githubusercontent.com/medo64/code-point/master/images/screenshot.gif)
 

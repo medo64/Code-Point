@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.4.0]
+
+### Changed
+- Single click changes statusbar display style (i.e. decimal, hexadecimal, unicode, or description)
+- Double click opens web page
+- Default display style is `unicode`
+
+
 ## [1.3.0]
 
 ### Fixed
