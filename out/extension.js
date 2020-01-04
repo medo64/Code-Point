@@ -3,7 +3,7 @@
 const vscode = require('vscode')
 const fs = require("fs")
 const path = require("path")
-
+const unicode = require("./unicode")
 
 function activate(context) {
     var statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 28433)
@@ -11,7 +11,6 @@ function activate(context) {
     statusBarItem.tooltip = "Character code point"
 
     var unicodeDescriptions = {}
-    var unicodeCategories = {}
 
     const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
     fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
@@ -20,10 +19,8 @@ function activate(context) {
             for (let i = 0; i < unicodeDictionaryObject.length; i++) {
                 const entry = unicodeDictionaryObject[i]
                 const code = entry.code
-                const category = entry.category
                 const description = entry.description
                 unicodeDescriptions[code] = description
-                unicodeCategories[code] = category
             }
         }
     })
@@ -76,10 +73,7 @@ function activate(context) {
                 const codePoint = ch.codePointAt(0)
 
                 if (result.length >= 1) { //start checking for specials once we have first character
-                    const lookupCode = toHexadecimalLookup(codePoint)
-                    let category = unicodeCategories[lookupCode]
-
-                    if ((category === "Mn") || (category === "Mc") || (category === "Me")) { //a nonspacing combining mark (zero advance width); a spacing combining mark (positive advance width); an enclosing combining mark
+                    if (unicode.isCombiningMark(codePoint)) {
                         useNext = 1
                         checkNext = 2
                     } else if ((prevCodePoint >= 0x1F1E6) && (prevCodePoint <= 0x1F1FF) && (codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //Regional Indicator Symbol Letter, e.g. country flags

@@ -9,17 +9,19 @@ if [[ ! -f "$TEMPORARY_DIRECTORY/UnicodeData.txt" ]]; then
     exit 1
 fi
 
+
+# General information file
+
 awk '
     BEGIN {
         FS=";"
         print "["
     }
     NR>1 {
-        print "    { \"code\": \"" code "\", \"category\": \"" class "\", \"description\": \"" description "\" },"
+        print "    { \"code\": \"" code "\", \"description\": \"" description "\" },"
     }
     {
         code = $1
-        class = $3
         description = $2
         if ((description ~ /^<.*>$/) && ($11 != "")) {
             gsub(/ \(.*\)$/, "", $11)
@@ -27,15 +29,47 @@ awk '
         }
     }
     END {
-        print "    { \"code\": \"" code "\", \"category\": \"" class "\", \"description\": \"" description "\" }"
+        print "    { \"code\": \"" code "\", \"description\": \"" description "\" }"
         print "]"
     }
-    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/UnicodeData.new.txt"
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.json"
 
-if [[ ! -f "$TEMPORARY_DIRECTORY/UnicodeData.new.txt" ]]; then
+if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.json" ]]; then
     echo "File processing failed!" >&2
     exit 1
 fi
 
 SCRIPT_DIRECTORY=`dirname "$0"`
-mv "$TEMPORARY_DIRECTORY/UnicodeData.new.txt" "$SCRIPT_DIRECTORY/../resources/unicode.json"
+mv "$TEMPORARY_DIRECTORY/unicode.json" "$SCRIPT_DIRECTORY/../resources/unicode.json"
+
+
+# Combining marks
+
+awk '
+    BEGIN {
+        FS=";"
+        print "function isCombiningMark(cp) {"
+    }
+    NR>1 {
+        if (class ~ /^M.$/) {
+            print "    if (cp === 0x" code ") { return true }"
+        }
+    }
+    {
+        code = $1
+        class = $3
+    }
+    END {
+        print "    return false"
+        print "}"
+        print "exports.isCombiningMark = isCombiningMark"
+    }
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.js"
+
+if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.js" ]]; then
+    echo "File processing failed!" >&2
+    exit 1
+fi
+
+SCRIPT_DIRECTORY=`dirname "$0"`
+mv "$TEMPORARY_DIRECTORY/unicode.js" "$SCRIPT_DIRECTORY/../out/unicode.js"
