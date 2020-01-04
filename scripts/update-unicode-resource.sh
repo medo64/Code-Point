@@ -15,7 +15,7 @@ awk '
         print "["
     }
     NR>1 {
-        print "    { \"code\": \"" code "\", \"class\": \"" class "\", \"description\": \"" description "\" },"
+        print "    { \"code\": \"" code "\", \"category\": \"" class "\", \"description\": \"" description "\" },"
     }
     {
         code = $1
@@ -27,7 +27,7 @@ awk '
         }
     }
     END {
-        print "    { \"code\": \"" code "\", \"class\": \"" class "\", \"description\": \"" description "\" }"
+        print "    { \"code\": \"" code "\", \"category\": \"" class "\", \"description\": \"" description "\" }"
         print "]"
     }
     ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/UnicodeData.new.txt"
