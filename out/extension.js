@@ -75,17 +75,28 @@ function activate(context) {
         if (selection.isEmpty) {
             const selectionLine = document.lineAt(selection.active)
             if ((selectionLine.range.end.character > 0) && (selection.active.character >= selectionLine.range.end.character)) {
-                const backwardSelectionStart = new vscode.Position(selection.active.line, (selectionLine.range.end.character >= 2) ? selectionLine.range.end.character - 2 : selectionLine.range.end.character - 1)
+                const backwardSelectionStart = new vscode.Position(selection.active.line,
+                    (selectionLine.range.end.character >= 4) ? selectionLine.range.end.character - 4 :
+                    (selectionLine.range.end.character >= 3) ? selectionLine.range.end.character - 3 :
+                    (selectionLine.range.end.character >= 2) ? selectionLine.range.end.character - 2 :
+                    selectionLine.range.end.character - 1)
                 const backwardSelectionRange = new vscode.Range(backwardSelectionStart, selection.active)
                 const backwardSelectionText = document.getText(backwardSelectionRange)
                 if (backwardSelectionText) {
-                    const backwardCodePoint = backwardSelectionText.codePointAt(0)
                     if (backwardSelectionText.length == 1) { //only single character
                         return [ backwardSelectionText.codePointAt(0) ]
-                    } else if (backwardCodePoint >= 0x10000) { //check if 2-char codepoint applies
-                        return [ backwardCodePoint ]
-                    } else { //ignore first character
-                        return [ backwardSelectionText.codePointAt(1) ]
+                    } else {
+                        const backwardCodePoint2 = backwardSelectionText.codePointAt(backwardSelectionText.length - 2)
+                        const backwardCodePoint1 = backwardSelectionText.codePointAt(backwardSelectionText.length - 1)
+                        if ((backwardCodePoint2 >= 0x1F1E6) && (backwardCodePoint2 <= 0x1F1FF) && (backwardSelectionText.length >= 4)) { //special flag handling
+                            const backwardCodePoint4 = backwardSelectionText.codePointAt(backwardSelectionText.length - 4)
+                            if ((backwardCodePoint4 >= 0x1F1E6) && (backwardCodePoint4 <= 0x1F1FF)) { //special flag handling
+                                return [ backwardCodePoint4, backwardCodePoint2 ]
+                            }
+                        } else if (backwardCodePoint2 >= 0x10000) { //check if 2-char codepoint applies
+                            return [ backwardCodePoint2 ]
+                        }
+                        return [ backwardCodePoint1 ] //return only last character
                     }
                 }
             }
