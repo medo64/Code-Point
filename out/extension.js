@@ -73,13 +73,16 @@ function activate(context) {
                 const codePoint = ch.codePointAt(0)
 
                 if (result.length >= 1) { //start checking for specials once we have first character
-                    if ((codePoint >= 0x300) && (codePoint <= 0x36F)) { //combining characters
+                    if ((codePoint >= 0x0300) && (codePoint <= 0x036F)) { //Combining Diacritical Marks
                         result.push(codePoint) //return this and previous character
                         break
-                    } else if ((prevCodePoint >= 0x1F1E6) && (prevCodePoint <= 0x1F1FF) && (codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //flags
+                    } else if ((codePoint >= 0x20D0) && (codePoint <= 0x20FF)) { //Combining Diacritical Marks for Symbols
                         result.push(codePoint) //return this and previous character
                         break
-                    } else if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //ignore start of flag after normal character
+                    } else if ((prevCodePoint >= 0x1F1E6) && (prevCodePoint <= 0x1F1FF) && (codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //Regional Indicator Symbol Letter, e.g. country flags
+                        result.push(codePoint) //return this and previous character
+                        break
+                    } else if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //ignore start of country flag after normal character
                         break
                     } else if (codePoint == 0x200D) { //zero-width joiner
                         useNext = 2
