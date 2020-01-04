@@ -13,17 +13,14 @@ function activate(context) {
     var unicodeDescriptions = {}
 
     const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
-    fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
-        if (!err) {
-            var unicodeDictionaryObject = JSON.parse(data)
-            for (let i = 0; i < unicodeDictionaryObject.length; i++) {
-                const entry = unicodeDictionaryObject[i]
-                const code = entry.code
-                const description = entry.description
-                unicodeDescriptions[code] = description
-            }
-        }
-    })
+    const data = fs.readFileSync(unicodeResourcePath, "utf8")
+    var unicodeDictionaryObject = JSON.parse(data)
+    for (let i = 0; i < unicodeDictionaryObject.length; i++) {
+        const entry = unicodeDictionaryObject[i]
+        const code = entry.code
+        const description = entry.description
+        unicodeDescriptions[code] = description
+    }
 
     var lastCodePoints
     var doubleClickTimerId
