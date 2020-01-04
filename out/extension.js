@@ -56,11 +56,20 @@ function activate(context) {
     var statusbarStyleAsText
 
 
-    function getCodePoint(document, selection) {
+    function getCodePoints(document, selection) {
         //get code point for character after selection
-        const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 2)))
+        const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 5)))
         const selectionText = document.getText(selectionRange)
-        if (selectionText) { return selectionText.codePointAt(0) }
+        if (selectionText) {
+            const codePoint = selectionText.codePointAt(0)
+            if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //special flag handling
+                const codePoint2 = selectionText.codePointAt(2);
+                if ((codePoint2 >= 0x1F1E6) && (codePoint2 <= 0x1F1FF)) {
+                    return [ codePoint, codePoint2 ]
+                }
+            }
+            return [ codePoint ]
+        }
 
         //get code point for character before selection, if it's the last character
         if (selection.isEmpty) {
@@ -72,11 +81,11 @@ function activate(context) {
                 if (backwardSelectionText) {
                     const backwardCodePoint = backwardSelectionText.codePointAt(0)
                     if (backwardSelectionText.length == 1) { //only single character
-                        return backwardSelectionText.codePointAt(0)
+                        return [ backwardSelectionText.codePointAt(0) ]
                     } else if (backwardCodePoint >= 0x10000) { //check if 2-char codepoint applies
-                        return backwardCodePoint
+                        return [ backwardCodePoint ]
                     } else { //ignore first character
-                        return backwardSelectionText.codePointAt(1)
+                        return [ backwardSelectionText.codePointAt(1) ]
                     }
                 }
             }
@@ -125,36 +134,58 @@ function activate(context) {
             return
         }
 
-        const codePoint = getCodePoint(document, selection)
-        if ((codePoint === undefined) || (codePoint === null)) {
+        const codePoints = getCodePoints(document, selection)
+        if ((codePoints === undefined) || (codePoints === null)) {
             statusBarItem.hide()
             return
         }
 
-        let decimal = codePoint.toString()
-        let hexadecimal = toHexadecimal(codePoint)
-        let lookupCode = toHexadecimalLookup(codePoint)
-        let title = unicodeDescriptions[lookupCode]
-        let description = title
-        if (!title) { title = hexadecimal }
-        if (!description) { description = "Unrecognized character code point" }
+        let decimalText = ""
+        let hexadecimalText = ""
+        let descriptionText = ""
+        let unicodeText = ""
+        let tooltipText = ""
+        codePoints.forEach(codePoint => {
+            const decimal = codePoint.toString()
+            if (decimalText.length > 0) { decimalText += ", " }
+            decimalText += decimal;
+
+            const hexadecimal = toHexadecimal(codePoint)
+            if (hexadecimalText.length > 0) { hexadecimalText += ", " }
+            hexadecimalText += hexadecimal
+
+            const lookupCode = toHexadecimalLookup(codePoint)
+            let description = unicodeDescriptions[lookupCode]
+            if (!description) { description = "?" }
+
+            if (descriptionText.length > 0) { descriptionText += ", " }
+            descriptionText += description
+
+            const unicode = "U+" + lookupCode
+            if (unicodeText.length > 0) { unicodeText += ", " }
+            unicodeText += unicode
+
+            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + "\n" + description
+            if (tooltipText.length > 0) { tooltipText += "\n\n" }
+            tooltipText += tooltip
+        });
 
         switch(statusbarStyle) {
             case STATUSBARSTYLE_DECIMAL:
-                statusBarItem.text = decimal
+                statusBarItem.text = decimalText
                 break
             case STATUSBARSTYLE_HEXADECIMAL:
-                statusBarItem.text = hexadecimal
+                statusBarItem.text = hexadecimalText
                 break
             case STATUSBARSTYLE_DESCRIPTION:
-                statusBarItem.text = title
+                statusBarItem.text = descriptionText
                 break
             default:
-                statusBarItem.text = "U+" + lookupCode
+                statusBarItem.text = unicodeText
                 break
         }
 
-        statusBarItem.tooltip = "U+" + lookupCode + ": " + description + "\n\n" + hexadecimal + " (" + decimal + ")"
+        statusBarItem.tooltip = tooltipText
         statusBarItem.show() //just in case it was hidden before
     }
 
