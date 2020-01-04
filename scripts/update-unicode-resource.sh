@@ -15,10 +15,11 @@ awk '
         print "["
     }
     NR>1 {
-        print "    { \"code\": \"" code "\", \"description\": \"" description "\" },"
+        print "    { \"code\": \"" code "\", \"class\": \"" class "\", \"description\": \"" description "\" },"
     }
     {
         code = $1
+        class = $3
         description = $2
         if ((description ~ /^<.*>$/) && ($11 != "")) {
             gsub(/ \(.*\)$/, "", $11)
@@ -26,7 +27,7 @@ awk '
         }
     }
     END {
-        print "    { \"code\": \"" code "\", \"description\": \"" description "\" }"
+        print "    { \"code\": \"" code "\", \"class\": \"" class "\", \"description\": \"" description "\" }"
         print "]"
     }
     ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/UnicodeData.new.txt"
