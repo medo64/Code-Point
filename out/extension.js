@@ -180,16 +180,19 @@ function activate(context) {
 
             const lookupCode = toHexadecimalLookup(codePoint)
             let description = unicodeDescriptions[lookupCode]
-            if (!description) { description = "?" }
 
             if (descriptionText.length > 0) { descriptionText += ", " }
-            descriptionText += description
+            if (description) {
+                descriptionText += description
+            } else {
+                descriptionText += "U+" + lookupCode
+            }
 
             const unicode = "U+" + lookupCode
             if (unicodeText.length > 0) { unicodeText += ", " }
             unicodeText += unicode
 
-            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + "\n" + description
+            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + (description ? "\n" + description : "")
             if (tooltipText.length > 0) { tooltipText += "\n\n" }
             tooltipText += tooltip
         })
