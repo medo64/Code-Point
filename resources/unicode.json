@@ -11857,6 +11857,7 @@
     { "code": "32FC", "description": "CIRCLED KATAKANA WI" },
     { "code": "32FD", "description": "CIRCLED KATAKANA WE" },
     { "code": "32FE", "description": "CIRCLED KATAKANA WO" },
+    { "code": "32FF", "description": "SQUARE ERA NAME REIWA" },
     { "code": "3300", "description": "SQUARE APAATO" },
     { "code": "3301", "description": "SQUARE ARUHUA" },
     { "code": "3302", "description": "SQUARE ANPEA" },
