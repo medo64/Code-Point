@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.2]
+
+### Fixed
+- Reworked detection of combined characters
+
+
 ## [1.5.1]
 
 ### Fixed
