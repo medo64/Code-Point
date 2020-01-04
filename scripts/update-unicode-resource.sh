@@ -18,7 +18,7 @@ awk '
         print "["
     }
     NR>1 {
-        if ((code != "F0000") && (code != "FFFFD") && (code != "100000") && (code != "10FFFD")) {
+        if (description !~ /, (First|Last)>$/) {
             if (NR > 2) { printf ",\n" }
             printf "{\"c\":\"" code "\",\"d\":\"" description "\"}"
         }
