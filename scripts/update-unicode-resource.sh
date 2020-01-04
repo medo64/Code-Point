@@ -21,7 +21,7 @@ awk '
         code = $1
         description = $2
         if ((description ~ /^<.*>$/) && ($11 != "")) {
-            description = description " " $11
+            description = "<" $11 ">"
         }
     }
     END {
