@@ -119,14 +119,17 @@ function activate(context) {
     }
 
     function getDescription(codePoint) {
-        const lookupCode = toHexadecimalLookup(codePoint)
-        const description = unicodeDescriptions[lookupCode]
+        const unicodeHex = toHexadecimalLookup(codePoint)
+        const description = unicodeDescriptions[unicodeHex]
         if (description) {
             return description
-        } else if ((codePoint >= 0x4E00) && (codePoint <= 0x9FFF)) { //CJK Unified Ideographs
-            return "CJK UNIFIED IDEOGRAPH " + lookupCode
         } else {
-            return "U+" + lookupCode
+            const rangeDescription = unicode.getRangeDescription(codePoint)
+            if (rangeDescription) {
+                return rangeDescription + " " + unicodeHex
+            } else {
+                return "U+" + unicodeHex
+            }
         }
     }
 

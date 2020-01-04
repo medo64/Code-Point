@@ -46,12 +46,15 @@ SCRIPT_DIRECTORY=`dirname "$0"`
 mv "$TEMPORARY_DIRECTORY/unicode.json" "$SCRIPT_DIRECTORY/../resources/unicode.json"
 
 
-# Combining marks
+# Unicode JS
+
+echo '"use strict"' > "$TEMPORARY_DIRECTORY/unicode.js"
+
+## Combining marks
 
 awk -Wposix '
     BEGIN {
         FS=";"
-        print "\"use strict\""
         print ""
         print "function isCombiningMark(cp) {"
         firstCodeDec = 0
@@ -98,7 +101,37 @@ awk -Wposix '
         print "}"
         print "exports.isCombiningMark = isCombiningMark"
     }
-    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.js"
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" >> "$TEMPORARY_DIRECTORY/unicode.js"
+
+## Range descriptions
+
+
+awk -Wposix '
+    BEGIN {
+        FS=";"
+        print ""
+        firstCode = ""
+        print "function getRangeDescription(cp) {"
+    }
+    NR>1 {
+        if (description ~ /, First>$/) {
+            firstCode = code
+        } else if (description ~ /, Last>$/) {
+            gsub(/^</, "", description)
+            gsub(/, Last>$/, "", description)
+            print "    if ((cp >= 0x" firstCode ") && (cp <= 0x" code ")) { return \"" toupper(description) "\" }"
+        }
+    }
+    {
+        code = $1
+        description = $2
+    }
+    END {
+        print "    return null"
+        print "}"
+        print "exports.getRangeDescription = getRangeDescription"
+    }
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" >> "$TEMPORARY_DIRECTORY/unicode.js"
 
 if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.js" ]]; then
     echo "File processing failed!" >&2

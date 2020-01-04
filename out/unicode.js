@@ -284,3 +284,22 @@ function isCombiningMark(cp) {
     return false
 }
 exports.isCombiningMark = isCombiningMark
+
+function getRangeDescription(cp) {
+    if ((cp >= 0x3400) && (cp <= 0x4DB5)) { return "CJK IDEOGRAPH EXTENSION A" }
+    if ((cp >= 0x4E00) && (cp <= 0x9FEF)) { return "CJK IDEOGRAPH" }
+    if ((cp >= 0xAC00) && (cp <= 0xD7A3)) { return "HANGUL SYLLABLE" }
+    if ((cp >= 0xD800) && (cp <= 0xDB7F)) { return "NON PRIVATE USE HIGH SURROGATE" }
+    if ((cp >= 0xDB80) && (cp <= 0xDBFF)) { return "PRIVATE USE HIGH SURROGATE" }
+    if ((cp >= 0xDC00) && (cp <= 0xDFFF)) { return "LOW SURROGATE" }
+    if ((cp >= 0xE000) && (cp <= 0xF8FF)) { return "PRIVATE USE" }
+    if ((cp >= 0x17000) && (cp <= 0x187F7)) { return "TANGUT IDEOGRAPH" }
+    if ((cp >= 0x20000) && (cp <= 0x2A6D6)) { return "CJK IDEOGRAPH EXTENSION B" }
+    if ((cp >= 0x2A700) && (cp <= 0x2B734)) { return "CJK IDEOGRAPH EXTENSION C" }
+    if ((cp >= 0x2B740) && (cp <= 0x2B81D)) { return "CJK IDEOGRAPH EXTENSION D" }
+    if ((cp >= 0x2B820) && (cp <= 0x2CEA1)) { return "CJK IDEOGRAPH EXTENSION E" }
+    if ((cp >= 0x2CEB0) && (cp <= 0x2EBE0)) { return "CJK IDEOGRAPH EXTENSION F" }
+    if ((cp >= 0xF0000) && (cp <= 0xFFFFD)) { return "PLANE 15 PRIVATE USE" }
+    return null
+}
+exports.getRangeDescription = getRangeDescription
