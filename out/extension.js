@@ -85,9 +85,24 @@ function activate(context) {
         return null
     }
 
-    function updateStatusbar(editor) {
-        lookupCode = null
+    function toHexadecimal(codePoint) {
+        const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
 
+        if (codePoint <= 0xFF) {
+            return "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+        } else if (codePoint <= 0xFFFF) {
+            return "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+        } else {
+            return "0x" + selectionCodePointAsHex
+        }
+    }
+
+    function toHexadecimalLookup(codePoint) {
+        const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
+        return (codePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+    }
+
+    function updateStatusbar(editor) {
         if (statusbarStyle === STATUSBARSTYLE_NONE) {
             statusBarItem.hide() //just in case we have extension loaded but don't want output
             return
@@ -110,25 +125,15 @@ function activate(context) {
             return
         }
 
-        const selectionCodePoint = getCodePoint(document, selection)
-        if ((selectionCodePoint === undefined) || (selectionCodePoint === null)) {
+        const codePoint = getCodePoint(document, selection)
+        if ((codePoint === undefined) || (codePoint === null)) {
             statusBarItem.hide()
             return
         }
 
-        const selectionCodePointAsHex = selectionCodePoint.toString(16).toUpperCase()
-
-        const decimal = selectionCodePoint.toString()
-        let hexadecimal
-        if (selectionCodePoint <= 0xFF) {
-            hexadecimal = "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
-        } else if (selectionCodePoint <= 0xFFFF) {
-            hexadecimal = "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
-        } else {
-            hexadecimal = "0x" + selectionCodePointAsHex
-        }
-
-        lookupCode = (selectionCodePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+        let decimal = codePoint.toString()
+        let hexadecimal = toHexadecimal(codePoint)
+        let lookupCode = toHexadecimalLookup(codePoint)
         let title = unicodeDescriptions[lookupCode]
         let description = title
         if (!title) { title = hexadecimal }
