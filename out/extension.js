@@ -61,21 +61,51 @@ function activate(context) {
 
     function getCodePoints(document, selection) {
         //get code point for character after selection
-        const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 5)))
+        const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 20))) //get enough characters to deal with decomposing them
         const selectionText = document.getText(selectionRange)
+
         if (selectionText) {
-            const codePoint1 = selectionText.codePointAt(0)
-            const codePoint2 = selectionText.length >= 2 ? selectionText.codePointAt(1) : undefined
-            const codePoint3 = selectionText.length >= 3 ? selectionText.codePointAt(2) : undefined
-            if ((codePoint1 >= 0x1F1E6) && (codePoint1 <= 0x1F1FF)) { //special flag handling
-                if ((codePoint3 >= 0x1F1E6) && (codePoint3 <= 0x1F1FF)) {
-                    return [ codePoint1, codePoint3 ]
+            let result = []
+            let prevCodePoint = undefined
+            let useNext = 1
+            let checkNext = 2
+            for (const ch of selectionText) {
+                const codePoint = ch.codePointAt(0)
+
+                if (result.length >= 1) { //start checking for specials once we have first character
+                    if ((codePoint >= 0x300) && (codePoint <= 0x36F)) { //combining characters
+                        result.push(codePoint) //return this and previous character
+                        break
+                    } else if ((prevCodePoint >= 0x1F1E6) && (prevCodePoint <= 0x1F1FF) && (codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //flags
+                        result.push(codePoint) //return this and previous character
+                        break
+                    } else if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //ignore start of flag after normal character
+                        break
+                    } else if (codePoint == 0x200D) { //zero-width joiner
+                        useNext = 2
+                        checkNext = 2
+                    } else if ((codePoint >= 0xFE00) && (codePoint <= 0xFE0F)) { //variation selector
+                        useNext = 2
+                        checkNext = 2
+                    } else if (useNext == 0) { //special sequence has ended
+                        break
+                    }
+                }
+
+                if (useNext > 0) {
+                    result.push(codePoint)
+                    useNext -= 1
+                }
+                prevCodePoint = codePoint
+
+                if (checkNext == 0) { //no more characters to check for joiners or combining marks
+                    break
+                } else {
+                    checkNext -= 1
                 }
             }
-            if ((codePoint2 >= 0x300) && (codePoint2 <= 0x36F)) {
-                return [ codePoint1, codePoint2 ]
-            }
-            return [ codePoint1 ] //just return single code
+
+            return result
         }
 
         if (selection.isEmpty) { //get code point for EOL
