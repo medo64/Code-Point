@@ -106,6 +106,9 @@ function activate(context) {
         }
 
         if (selection.isEmpty) { //get code point for EOL
+            const nextLineSelection = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(1, 0)))
+            if (nextLineSelection.end === selection.active) { return [ ] } //nothing behind active selection
+
             const LF = 1
             const CRLF = 2
             if (document.eol === LF) {
