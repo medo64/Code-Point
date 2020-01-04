@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.5.0]
+
+### Fixed
+- Fixed dependency security vulnerabilities
+
+### Changed
+- Showing both unicode code points for flags and combining diacritical marks
+- Showing EOL code points instead of previous character
+
+
 ## [1.4.4]
 
 ### Fixed

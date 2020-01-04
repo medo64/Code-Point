@@ -3,7 +3,7 @@
     "displayName": "Character Code Point",
     "description": "Displays character code point in status bar.",
     "icon": "ICON.png",
-    "version": "1.4.4",
+    "version": "1.5.0",
     "publisher": "medo64",
     "galleryBanner": {
         "color": "#373E6D",
