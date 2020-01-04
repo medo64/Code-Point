@@ -24,3 +24,17 @@ This extension contributes the following settings:
   * `hexadecimal`: Hexadecimal value of code point (e.g. `0x4D`);
   * `unicode`: Unicode code point (e.g. `U+004D`);
   * `description`: Full description is shown (e.g. `LATIN CAPITAL LETTER M`).
+
+
+## Known Issues
+
+### Mixed Line Endings Are Not Supported
+
+Visual Studio Code normalizes line endings upon load and thus this extension
+will only show one kind of line ending character. Currently it is not possible
+to have multiple different line endings (see [issue 127](https://github.com/Microsoft/vscode/issues/127)).
+
+### CR Line Ending Is Not Supported
+
+Visual Studio does not support CR line ending (see [issue 35797](https://github.com/Microsoft/vscode/issues/35797)).
+Therefore you will never see CR as a line ending.

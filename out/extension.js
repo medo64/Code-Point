@@ -71,34 +71,13 @@ function activate(context) {
             return [ codePoint ]
         }
 
-        //get code point for character before selection, if it's the last character
-        if (selection.isEmpty) {
-            const selectionLine = document.lineAt(selection.active)
-            if ((selectionLine.range.end.character > 0) && (selection.active.character >= selectionLine.range.end.character)) {
-                const backwardSelectionStart = new vscode.Position(selection.active.line,
-                    (selectionLine.range.end.character >= 4) ? selectionLine.range.end.character - 4 :
-                    (selectionLine.range.end.character >= 3) ? selectionLine.range.end.character - 3 :
-                    (selectionLine.range.end.character >= 2) ? selectionLine.range.end.character - 2 :
-                    selectionLine.range.end.character - 1)
-                const backwardSelectionRange = new vscode.Range(backwardSelectionStart, selection.active)
-                const backwardSelectionText = document.getText(backwardSelectionRange)
-                if (backwardSelectionText) {
-                    if (backwardSelectionText.length == 1) { //only single character
-                        return [ backwardSelectionText.codePointAt(0) ]
-                    } else {
-                        const backwardCodePoint2 = backwardSelectionText.codePointAt(backwardSelectionText.length - 2)
-                        const backwardCodePoint1 = backwardSelectionText.codePointAt(backwardSelectionText.length - 1)
-                        if ((backwardCodePoint2 >= 0x1F1E6) && (backwardCodePoint2 <= 0x1F1FF) && (backwardSelectionText.length >= 4)) { //special flag handling
-                            const backwardCodePoint4 = backwardSelectionText.codePointAt(backwardSelectionText.length - 4)
-                            if ((backwardCodePoint4 >= 0x1F1E6) && (backwardCodePoint4 <= 0x1F1FF)) { //special flag handling
-                                return [ backwardCodePoint4, backwardCodePoint2 ]
-                            }
-                        } else if (backwardCodePoint2 >= 0x10000) { //check if 2-char codepoint applies
-                            return [ backwardCodePoint2 ]
-                        }
-                        return [ backwardCodePoint1 ] //return only last character
-                    }
-                }
+        if (selection.isEmpty) { //get code point for EOL
+            const LF = 1
+            const CRLF = 2
+            if (document.eol === LF) {
+                return [ 10 ]
+            } else if (document.eol === CRLF) {
+                return [ 13, 10 ]
             }
         }
 
