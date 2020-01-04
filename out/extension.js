@@ -11,6 +11,7 @@ function activate(context) {
     statusBarItem.tooltip = "Character code point"
 
     var unicodeDescriptions = {}
+    var unicodeCategories = {}
 
     const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
     fs.readFile(unicodeResourcePath, "utf8", (err, data) => {
@@ -19,8 +20,10 @@ function activate(context) {
             for (let i = 0; i < unicodeDictionaryObject.length; i++) {
                 const entry = unicodeDictionaryObject[i]
                 const code = entry.code
+                const category = entry.category
                 const description = entry.description
                 unicodeDescriptions[code] = description
+                unicodeCategories[code] = category
             }
         }
     })
@@ -73,21 +76,18 @@ function activate(context) {
                 const codePoint = ch.codePointAt(0)
 
                 if (result.length >= 1) { //start checking for specials once we have first character
-                    if ((codePoint >= 0x0300) && (codePoint <= 0x036F)) { //Combining Diacritical Marks
-                        result.push(codePoint) //return this and previous character
-                        break
-                    } else if ((codePoint >= 0x20D0) && (codePoint <= 0x20FF)) { //Combining Diacritical Marks for Symbols
-                        result.push(codePoint) //return this and previous character
-                        break
+                    const lookupCode = toHexadecimalLookup(codePoint)
+                    let category = unicodeCategories[lookupCode]
+
+                    if ((category === "Mn") || (category === "Mc") || (category === "Me")) { //a nonspacing combining mark (zero advance width); a spacing combining mark (positive advance width); an enclosing combining mark
+                        useNext = 1
+                        checkNext = 2
                     } else if ((prevCodePoint >= 0x1F1E6) && (prevCodePoint <= 0x1F1FF) && (codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //Regional Indicator Symbol Letter, e.g. country flags
                         result.push(codePoint) //return this and previous character
                         break
                     } else if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //ignore start of country flag after normal character
                         break
                     } else if (codePoint == 0x200D) { //zero-width joiner
-                        useNext = 2
-                        checkNext = 2
-                    } else if ((codePoint >= 0xFE00) && (codePoint <= 0xFE0F)) { //variation selector
                         useNext = 2
                         checkNext = 2
                     } else if (useNext == 0) { //special sequence has ended
