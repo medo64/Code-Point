@@ -20,7 +20,7 @@ awk '
     NR>1 {
         if ((code != "F0000") && (code != "FFFFD") && (code != "100000") && (code != "10FFFD")) {
             if (NR > 2) { printf ",\n" }
-            printf "    { \"code\": \"" code "\", \"description\": \"" description "\" }"
+            printf "{\"c\":\"" code "\",\"d\":\"" description "\"}"
         }
     }
     {

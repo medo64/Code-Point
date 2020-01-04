@@ -17,8 +17,8 @@ function activate(context) {
     var unicodeDictionaryObject = JSON.parse(data)
     for (let i = 0; i < unicodeDictionaryObject.length; i++) {
         const entry = unicodeDictionaryObject[i]
-        const code = entry.code
-        const description = entry.description
+        const code = entry.c
+        const description = entry.d
         unicodeDescriptions[code] = description
     }
 
