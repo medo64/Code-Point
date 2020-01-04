@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.1]
+
+### Fixed
+- Fixed URL on double-click
+
+
 ## [1.5.0]
 
 ### Fixed

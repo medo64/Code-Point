@@ -25,7 +25,7 @@ function activate(context) {
         }
     })
 
-    var lookupCode
+    var lastCodePoints
     var doubleClickTimerId
 
     vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
@@ -34,13 +34,16 @@ function activate(context) {
             doubleClickTimerId = undefined
 
             updateStatusbar(vscode.window.activeTextEditor)
-            if (lookupCode == null) {
+            if (lastCodePoints == null) {
                 vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
             } else {
-                vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
+                lastCodePoints.forEach(codePoint => {
+                    const lookupCode = toHexadecimalLookup(codePoint)
+                    vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
+                })
             }
         } else {
-            doubleClickTimerId = setTimeout(nextStyle, 250); //do single-click once timer has elapsed
+            doubleClickTimerId = setTimeout(nextStyle, 250) //do single-click once timer has elapsed
         }
     })
 
@@ -142,7 +145,7 @@ function activate(context) {
         codePoints.forEach(codePoint => {
             const decimal = codePoint.toString()
             if (decimalText.length > 0) { decimalText += ", " }
-            decimalText += decimal;
+            decimalText += decimal
 
             const hexadecimal = toHexadecimal(codePoint)
             if (hexadecimalText.length > 0) { hexadecimalText += ", " }
@@ -162,7 +165,8 @@ function activate(context) {
             const tooltip = unicode + "   " + hexadecimal + "   " + decimal + "\n" + description
             if (tooltipText.length > 0) { tooltipText += "\n\n" }
             tooltipText += tooltip
-        });
+        })
+        lastCodePoints = codePoints
 
         switch(statusbarStyle) {
             case STATUSBARSTYLE_DECIMAL:
