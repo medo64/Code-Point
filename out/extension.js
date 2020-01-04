@@ -118,6 +118,18 @@ function activate(context) {
         return null
     }
 
+    function getDescription(codePoint) {
+        const lookupCode = toHexadecimalLookup(codePoint)
+        const description = unicodeDescriptions[lookupCode]
+        if (description) {
+            return description
+        } else if ((codePoint >= 0x4E00) && (codePoint <= 0x9FFF)) { //CJK Unified Ideographs
+            return "CJK UNIFIED IDEOGRAPH " + lookupCode
+        } else {
+            return "U+" + lookupCode
+        }
+    }
+
     function toHexadecimal(codePoint) {
         const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
 
@@ -178,21 +190,15 @@ function activate(context) {
             if (hexadecimalText.length > 0) { hexadecimalText += ", " }
             hexadecimalText += hexadecimal
 
-            const lookupCode = toHexadecimalLookup(codePoint)
-            let description = unicodeDescriptions[lookupCode]
-
-            if (descriptionText.length > 0) { descriptionText += ", " }
-            if (description) {
-                descriptionText += description
-            } else {
-                descriptionText += "U+" + lookupCode
-            }
-
-            const unicode = "U+" + lookupCode
+            const unicode = "U+" + toHexadecimalLookup(codePoint)
             if (unicodeText.length > 0) { unicodeText += ", " }
             unicodeText += unicode
 
-            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + (description ? "\n" + description : "")
+            const description = getDescription(codePoint) 
+            if (descriptionText.length > 0) { descriptionText += ", " }
+            descriptionText += description
+
+            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + (!description.startsWith("U+") ? "\n" + description : "")
             if (tooltipText.length > 0) { tooltipText += "\n\n" }
             tooltipText += tooltip
         })
