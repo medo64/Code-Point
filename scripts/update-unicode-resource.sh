@@ -18,7 +18,10 @@ awk '
         print "["
     }
     NR>1 {
-        print "    { \"code\": \"" code "\", \"description\": \"" description "\" },"
+        if ((code != "F0000") && (code != "FFFFD") && (code != "100000") && (code != "10FFFD")) {
+            if (NR > 2) { printf ",\n" }
+            printf "    { \"code\": \"" code "\", \"description\": \"" description "\" }"
+        }
     }
     {
         code = $1
@@ -29,7 +32,7 @@ awk '
         }
     }
     END {
-        print "    { \"code\": \"" code "\", \"description\": \"" description "\" }"
+        printf "\n"
         print "]"
     }
     ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.json"
