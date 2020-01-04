@@ -51,6 +51,8 @@ mv "$TEMPORARY_DIRECTORY/unicode.json" "$SCRIPT_DIRECTORY/../resources/unicode.j
 awk -Wposix '
     BEGIN {
         FS=";"
+        print "\"use strict\""
+        print ""
         print "function isCombiningMark(cp) {"
         firstCodeDec = 0
         firstCodeHex = 0

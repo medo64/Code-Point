@@ -1,3 +1,5 @@
+"use strict"
+
 function isCombiningMark(cp) {
     if ((cp >= 0x0300) && (cp <= 0x036F)) { return true }
     if ((cp >= 0x0483) && (cp <= 0x0489)) { return true }

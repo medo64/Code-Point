@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 const vscode = require('vscode')
 const fs = require("fs")
