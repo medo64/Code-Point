@@ -1,6 +1,11 @@
+
 ABC
 Åö
 🇭🇷 🇺🇸
+👩‍❤️‍💋‍👨A
+A👩‍❤️‍💋‍👨A
+◌⃗
+發電廠樂
 
 // From https://unicode.org/emoji/charts/full-emoji-list.html
 /** Smileys &amp; Emotion **/

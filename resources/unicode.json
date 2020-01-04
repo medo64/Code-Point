@@ -32835,9 +32835,5 @@
     { "code": "E01EC", "description": "VARIATION SELECTOR-253" },
     { "code": "E01ED", "description": "VARIATION SELECTOR-254" },
     { "code": "E01EE", "description": "VARIATION SELECTOR-255" },
-    { "code": "E01EF", "description": "VARIATION SELECTOR-256" },
-    { "code": "F0000", "description": "<Plane 15 Private Use, First>" },
-    { "code": "FFFFD", "description": "<Plane 15 Private Use, Last>" },
-    { "code": "100000", "description": "<Plane 16 Private Use, First>" },
-    { "code": "10FFFD", "description": "<Plane 16 Private Use, Last>" }
+    { "code": "E01EF", "description": "VARIATION SELECTOR-256" }
 ]
