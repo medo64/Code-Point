@@ -10,7 +10,7 @@ if [[ ! -f "$TEMPORARY_DIRECTORY/UnicodeData.txt" ]]; then
 fi
 
 
-# General information file
+# Descriptions
 
 awk '
     BEGIN {
