@@ -45,14 +45,38 @@ mv "$TEMPORARY_DIRECTORY/unicode.json" "$SCRIPT_DIRECTORY/../resources/unicode.j
 
 # Combining marks
 
-awk '
+awk -Wposix '
     BEGIN {
         FS=";"
         print "function isCombiningMark(cp) {"
+        firstCodeDec = 0
+        firstCodeHex = 0
+        lastCodeDec = 0
+        lastCodeHex = 0
     }
     NR>1 {
         if (class ~ /^M.$/) {
-            print "    if (cp === 0x" code ") { return true }"
+            codeDec = sprintf("%d", "0x" code)
+            if (firstCodeDec == 0) {
+                firstCodeDec = codeDec
+                firstCodeHex = code
+                lastCodeDec = codeDec - 1
+                lastCodeHex = code
+            }
+            if (codeDec != lastCodeDec + 1) {
+                if (firstCodeHex == lastCodeHex) {
+                    print "    if (cp == 0x" firstCodeHex ") { return true }"
+                } else {
+                    print "    if ((cp >= 0x" firstCodeHex ") && (cp <= 0x" lastCodeHex ")) { return true }"
+                }
+                firstCodeDec = codeDec
+                firstCodeHex = code
+                lastCodeDec = codeDec
+                lastCodeHex = code
+            } else {
+                lastCodeDec = codeDec
+                lastCodeHex = code
+            }
         }
     }
     {
@@ -60,6 +84,11 @@ awk '
         class = $3
     }
     END {
+        if (firstCodeHex == lastCodeHex) {
+            print "    if (cp == 0x" firstCodeHex ") { return true }"
+        } else {
+            print "    if ((cp >= 0x" firstCodeHex ") && (cp <= 0x" lastCodeHex ")) { return true }"
+        }
         print "    return false"
         print "}"
         print "exports.isCombiningMark = isCombiningMark"
