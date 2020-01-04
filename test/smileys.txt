@@ -1,0 +1,6 @@
+// From https://unicode.org/emoji/charts/full-emoji-list.html
+
+/** Smileys & Emotion **/
+
+/* emotion */
+// 👁️‍🗨️		U+1F441 U+FE0F U+200D U+1F5E8 U+FE0F

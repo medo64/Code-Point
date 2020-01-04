@@ -1,0 +1,6 @@
+// From https://unicode.org/emoji/charts/full-emoji-list.html
+
+/** Animals & Nature **/
+
+/* animal-mammal */
+// 🐕‍🦺		U+1F415 U+200D U+1F9BA
