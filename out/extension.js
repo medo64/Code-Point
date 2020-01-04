@@ -61,14 +61,18 @@ function activate(context) {
         const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 5)))
         const selectionText = document.getText(selectionRange)
         if (selectionText) {
-            const codePoint = selectionText.codePointAt(0)
-            if ((codePoint >= 0x1F1E6) && (codePoint <= 0x1F1FF)) { //special flag handling
-                const codePoint2 = selectionText.codePointAt(2);
-                if ((codePoint2 >= 0x1F1E6) && (codePoint2 <= 0x1F1FF)) {
-                    return [ codePoint, codePoint2 ]
+            const codePoint1 = selectionText.codePointAt(0)
+            const codePoint2 = selectionText.length >= 2 ? selectionText.codePointAt(1) : undefined
+            const codePoint3 = selectionText.length >= 3 ? selectionText.codePointAt(2) : undefined
+            if ((codePoint1 >= 0x1F1E6) && (codePoint1 <= 0x1F1FF)) { //special flag handling
+                if ((codePoint3 >= 0x1F1E6) && (codePoint3 <= 0x1F1FF)) {
+                    return [ codePoint1, codePoint3 ]
                 }
             }
-            return [ codePoint ]
+            if ((codePoint2 >= 0x300) && (codePoint2 <= 0x36F)) {
+                return [ codePoint1, codePoint2 ]
+            }
+            return [ codePoint1 ] //just return single code
         }
 
         if (selection.isEmpty) { //get code point for EOL
