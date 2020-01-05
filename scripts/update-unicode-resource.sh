@@ -4,7 +4,20 @@ SCRIPT_DIRECTORY=`dirname "$0"`
 TEMPORARY_DIRECTORY=`mktemp -d`
 trap 'rm -rf "$TEMPORARY_DIRECTORY"' EXIT
 
-curl -o "$TEMPORARY_DIRECTORY/UnicodeData.txt" https://unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
+
+# Find the latest unicode draft
+UNICODE_VERSION=`curl -L https://unicode.org/Public/ 2>/dev/null | grep '<a' | sed 's/^.*<a href="//' | sed 's/\/".*//' | sort -nr | head -1`
+echo $UNICODE_VERSION
+
+UNICODE_DATA_FILE=`curl -L https://unicode.org/Public/$UNICODE_VERSION/ucd/ 2>/dev/null | grep '<a' | grep "UnicodeData" | grep ".txt" | sed 's/^.*<a href="//' | sed 's/".*//' | head -1`
+echo $UNICODE_DATA_FILE
+
+if [[ "$UNICODE_DATA_FILE" == "" ]]; then
+    echo "Cannot find Unicode data file!" >&2
+    exit 1
+fi
+
+curl -L -o "$TEMPORARY_DIRECTORY/UnicodeData.txt" https://unicode.org/Public/$UNICODE_VERSION/ucd/$UNICODE_DATA_FILE 2>/dev/null
 if [[ ! -s "$TEMPORARY_DIRECTORY/UnicodeData.txt" ]]; then
     echo "Unicode data file download failed!" >&2
     exit 1
