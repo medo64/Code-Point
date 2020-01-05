@@ -1,11 +1,12 @@
 #!/bin/bash
 
+SCRIPT_DIRECTORY=`dirname "$0"`
 TEMPORARY_DIRECTORY=`mktemp -d`
 trap 'rm -rf "$TEMPORARY_DIRECTORY"' EXIT
 
 curl -o "$TEMPORARY_DIRECTORY/UnicodeData.txt" https://unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
-if [[ ! -f "$TEMPORARY_DIRECTORY/UnicodeData.txt" ]]; then
-    echo "File download failed!" >&2
+if [[ ! -s "$TEMPORARY_DIRECTORY/UnicodeData.txt" ]]; then
+    echo "Unicode data file download failed!" >&2
     exit 1
 fi
 
@@ -35,27 +36,21 @@ awk '
         printf "\n"
         print "]"
     }
-    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.json"
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.descriptions.json"
 
-if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.json" ]]; then
-    echo "File processing failed!" >&2
+if [[ ! -s "$TEMPORARY_DIRECTORY/unicode.descriptions.json" ]]; then
+    echo "Unicode file processing failed (descriptions)!" >&2
     exit 1
 fi
 
-SCRIPT_DIRECTORY=`dirname "$0"`
-mv "$TEMPORARY_DIRECTORY/unicode.json" "$SCRIPT_DIRECTORY/../resources/unicode.json"
+mv "$TEMPORARY_DIRECTORY/unicode.descriptions.json" "$SCRIPT_DIRECTORY/../resources/unicode.json"
 
 
-# Unicode JS
-
-echo '"use strict"' > "$TEMPORARY_DIRECTORY/unicode.js"
-
-## Combining marks
+# Combining marks
 
 awk -Wposix '
     BEGIN {
         FS=";"
-        print ""
         print "function isCombiningMark(cp) {"
         firstCodeDec = 0
         firstCodeHex = 0
@@ -101,15 +96,20 @@ awk -Wposix '
         print "}"
         print "exports.isCombiningMark = isCombiningMark"
     }
-    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" >> "$TEMPORARY_DIRECTORY/unicode.js"
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.combiningmarks.js"
 
-## Range descriptions
+if [[ ! -s "$TEMPORARY_DIRECTORY/unicode.combiningmarks.js" ]]; then
+    echo "Unicode file processing failed (combining marks)!" >&2
+    exit 1
+fi
+
+
+# Range descriptions
 
 
 awk -Wposix '
     BEGIN {
         FS=";"
-        print ""
         firstCode = ""
         print "function getRangeDescription(cp) {"
     }
@@ -131,12 +131,20 @@ awk -Wposix '
         print "}"
         print "exports.getRangeDescription = getRangeDescription"
     }
-    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" >> "$TEMPORARY_DIRECTORY/unicode.js"
+    ' "$TEMPORARY_DIRECTORY/UnicodeData.txt" > "$TEMPORARY_DIRECTORY/unicode.rangedescriptions.js"
 
-if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.js" ]]; then
-    echo "File processing failed!" >&2
+if [[ ! -f "$TEMPORARY_DIRECTORY/unicode.rangedescriptions.js" ]]; then
+    echo "Unicode file processing failed (range descriptions)!" >&2
     exit 1
 fi
 
-SCRIPT_DIRECTORY=`dirname "$0"`
+
+# Unicode JS
+
+echo '"use strict"' > "$TEMPORARY_DIRECTORY/unicode.js"
+echo >> "$TEMPORARY_DIRECTORY/unicode.js"
+cat "$TEMPORARY_DIRECTORY/unicode.combiningmarks.js" >> "$TEMPORARY_DIRECTORY/unicode.js"
+echo >> "$TEMPORARY_DIRECTORY/unicode.js"
+cat "$TEMPORARY_DIRECTORY/unicode.rangedescriptions.js" >> "$TEMPORARY_DIRECTORY/unicode.js"
+
 mv "$TEMPORARY_DIRECTORY/unicode.js" "$SCRIPT_DIRECTORY/../out/unicode.js"
