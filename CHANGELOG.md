@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.6.0]
+
+### Changed
+- Using Unicode 13.0.0 (draft 6) data
+
+
 ## [1.5.2]
 
 ### Fixed
