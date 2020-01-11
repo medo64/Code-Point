@@ -1,9 +1,9 @@
 {
     "name": "code-point",
-    "displayName": "Character Code Point",
-    "description": "Displays character code point in status bar.",
+    "displayName": "Unicode Code Point",
+    "description": "Displays character's unicode code point in status bar.",
     "icon": "ICON.png",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "publisher": "medo64",
     "galleryBanner": {
         "color": "#373E6D",
@@ -39,7 +39,7 @@
         "configuration": [
             {
                 "type": "object",
-                "title": "Character Code Point",
+                "title": "Unicode Code Point",
                 "properties": {
                     "codepoint.statusbar": {
                         "type": "string",

@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.6.1]
+
+### Changed
+- Renamed
+
+
 ## [1.6.0]
 
 ### Changed
