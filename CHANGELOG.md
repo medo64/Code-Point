@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.6.2]
+
+### Changed
+- Security updates for libraries
+
+
 ## [1.6.1]
 
 ### Changed
