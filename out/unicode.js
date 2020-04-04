@@ -287,6 +287,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1E023) && (cp <= 0x1E024)) { return true }
     if ((cp >= 0x1E026) && (cp <= 0x1E02A)) { return true }
     if ((cp >= 0x1E130) && (cp <= 0x1E136)) { return true }
+    if (cp == 0x1E2AE) { return true }
     if ((cp >= 0x1E2EC) && (cp <= 0x1E2EF)) { return true }
     if ((cp >= 0x1E8D0) && (cp <= 0x1E8D6)) { return true }
     if ((cp >= 0x1E944) && (cp <= 0x1E94A)) { return true }
