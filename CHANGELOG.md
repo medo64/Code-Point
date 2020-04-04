@@ -1,8 +1,17 @@
 # Change Log
 
-## [1.6.2]
+## [1.7.0]
 
 ### Changed
+- Using Unicode 14.0.0 (draft 1) data
+
+### Fixed
+- Security updates for libraries
+
+
+## [1.6.2]
+
+### Fixed
 - Security updates for libraries
 
 
