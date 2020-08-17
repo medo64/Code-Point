@@ -5,7 +5,11 @@ const fs = require('fs')
 const path = require('path')
 const unicode = require('./unicode')
 
+/** @param {vscode.ExtensionContext} context */
 function activate(context) {
+    // @ts-ignore
+    const isDebug = (context.extensionMode === 2)
+
     var statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 28433)
     statusBarItem.command = 'codepoint.describe'
     statusBarItem.tooltip = 'Character code point'
@@ -56,6 +60,10 @@ function activate(context) {
     var statusbarStyleAsText
 
 
+    /**
+     * @param {vscode.TextDocument} document
+     * @param {vscode.Selection} selection
+     */
     function getCodePoints(document, selection) {
         //get code point for character after selection
         const selectionRange = new vscode.Range(selection.active, document.validatePosition(selection.active.translate(0, 20))) //get enough characters to deal with decomposing them
@@ -118,6 +126,7 @@ function activate(context) {
         return null
     }
 
+    /** @param {number} codePoint */
     function getDescription(codePoint) {
         const unicodeHex = toHexadecimalLookup(codePoint)
         const description = unicodeDescriptions[unicodeHex]
@@ -133,6 +142,7 @@ function activate(context) {
         }
     }
 
+    /** @param {number} codePoint */
     function toHexadecimal(codePoint) {
         const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
 
@@ -145,12 +155,16 @@ function activate(context) {
         }
     }
 
+    /** @param {number} codePoint */
     function toHexadecimalLookup(codePoint) {
         const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
         return (codePoint <= 0xFFF) ? '0'.repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
     }
 
+    /** @param {vscode.TextEditor} editor */
     function updateStatusbar(editor) {
+        if (isDebug) { console.debug('updateStatusbar()') }
+
         if (statusbarStyle === STATUSBARSTYLE_NONE) {
             statusBarItem.hide() //just in case we have extension loaded but don't want output
             return
@@ -178,6 +192,8 @@ function activate(context) {
             statusBarItem.hide()
             return
         }
+
+        const startTime = isDebug ? new Date().getTime() : null
 
         let decimalText = ''
         let hexadecimalText = ''
@@ -224,6 +240,8 @@ function activate(context) {
 
         statusBarItem.tooltip = tooltipText
         statusBarItem.show() //just in case it was hidden before
+
+        if (isDebug) { console.debug('updateStatusbar() finished in ' + (new Date().getTime() - startTime) + ' ms') }
     }
 
 
@@ -266,19 +284,25 @@ function activate(context) {
     updateStatusbar(vscode.window.activeTextEditor)
 
 
+    /** @param {vscode.TextEditor} e */
     vscode.window.onDidChangeActiveTextEditor((e) => {
+        if (isDebug) { console.debug('onDidChangeActiveTextEditor()') }
         updateStatusbar(e)
     }, null, context.subscriptions)
 
+    /** @param {vscode.TextEditorSelectionChangeEvent} e */
     vscode.window.onDidChangeTextEditorSelection((e) => {
+        if (isDebug) { console.debug('onDidChangeTextEditorSelection()') }
         updateStatusbar(e.textEditor)
     }, null, context.subscriptions)
 
     vscode.workspace.onDidChangeTextDocument(() => {
+        if (isDebug) { console.debug('onDidChangeTextDocument()') }
         updateStatusbar(vscode.window.activeTextEditor)
     }, null, context.subscriptions)
 
     vscode.workspace.onDidChangeConfiguration(() => {
+        if (isDebug) { console.debug('onDidChangeConfiguration()') }
         if (updateConfiguration()) {
             updateStatusbar(vscode.window.activeTextEditor)
         }

@@ -1,5 +1,6 @@
 'use strict'
 
+/** @param {number} cp */
 function isCombiningMark(cp) {
     if ((cp >= 0x0300) && (cp <= 0x036F)) { return true }
     if ((cp >= 0x0483) && (cp <= 0x0489)) { return true }
@@ -296,6 +297,7 @@ function isCombiningMark(cp) {
 }
 exports.isCombiningMark = isCombiningMark
 
+/** @param {number} cp */
 function getRangeDescription(cp) {
     if ((cp >= 0x3400) && (cp <= 0x4DBF)) { return 'CJK IDEOGRAPH EXTENSION A' }
     if ((cp >= 0x4E00) && (cp <= 0x9FFC)) { return 'CJK IDEOGRAPH' }
