@@ -1,19 +1,19 @@
-"use strict"
+'use strict'
 
 const vscode = require('vscode')
-const fs = require("fs")
-const path = require("path")
-const unicode = require("./unicode")
+const fs = require('fs')
+const path = require('path')
+const unicode = require('./unicode')
 
 function activate(context) {
     var statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 28433)
-    statusBarItem.command = "codepoint.describe"
-    statusBarItem.tooltip = "Character code point"
+    statusBarItem.command = 'codepoint.describe'
+    statusBarItem.tooltip = 'Character code point'
 
     var unicodeDescriptions = {}
 
-    const unicodeResourcePath = path.resolve(context.extensionPath, "resources/unicode.json")
-    const data = fs.readFileSync(unicodeResourcePath, "utf8")
+    const unicodeResourcePath = path.resolve(context.extensionPath, 'resources/unicode.json')
+    const data = fs.readFileSync(unicodeResourcePath, 'utf8')
     var unicodeDictionaryObject = JSON.parse(data)
     for (let i = 0; i < unicodeDictionaryObject.length; i++) {
         const entry = unicodeDictionaryObject[i]
@@ -25,18 +25,18 @@ function activate(context) {
     var lastCodePoints
     var doubleClickTimerId
 
-    vscode.commands.registerTextEditorCommand("codepoint.describe", () => {
+    vscode.commands.registerTextEditorCommand('codepoint.describe', () => {
         if (doubleClickTimerId) { //if timer still exists, it's a double-click
             clearTimeout(doubleClickTimerId) //cancel timer
             doubleClickTimerId = undefined
 
             updateStatusbar(vscode.window.activeTextEditor)
             if (lastCodePoints == null) {
-                vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/"))
+                vscode.commands.executeCommand('vscode.open', vscode.Uri.parse('https://www.compart.com/en/unicode/'))
             } else {
                 lastCodePoints.forEach(codePoint => {
                     const lookupCode = toHexadecimalLookup(codePoint)
-                    vscode.commands.executeCommand("vscode.open", vscode.Uri.parse("https://www.compart.com/en/unicode/U+" + lookupCode))
+                    vscode.commands.executeCommand('vscode.open', vscode.Uri.parse('https://www.compart.com/en/unicode/U+' + lookupCode))
                 })
             }
         } else {
@@ -126,9 +126,9 @@ function activate(context) {
         } else {
             const rangeDescription = unicode.getRangeDescription(codePoint)
             if (rangeDescription) {
-                return rangeDescription + " " + unicodeHex
+                return rangeDescription + ' ' + unicodeHex
             } else {
-                return "U+" + unicodeHex
+                return 'U+' + unicodeHex
             }
         }
     }
@@ -137,17 +137,17 @@ function activate(context) {
         const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
 
         if (codePoint <= 0xFF) {
-            return "0x" + "0".repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+            return '0x' + '0'.repeat(2 - selectionCodePointAsHex.length) + selectionCodePointAsHex
         } else if (codePoint <= 0xFFFF) {
-            return "0x" + "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
+            return '0x' + '0'.repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex
         } else {
-            return "0x" + selectionCodePointAsHex
+            return '0x' + selectionCodePointAsHex
         }
     }
 
     function toHexadecimalLookup(codePoint) {
         const selectionCodePointAsHex = codePoint.toString(16).toUpperCase()
-        return (codePoint <= 0xFFF) ? "0".repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
+        return (codePoint <= 0xFFF) ? '0'.repeat(4 - selectionCodePointAsHex.length) + selectionCodePointAsHex : selectionCodePointAsHex
     }
 
     function updateStatusbar(editor) {
@@ -179,30 +179,30 @@ function activate(context) {
             return
         }
 
-        let decimalText = ""
-        let hexadecimalText = ""
-        let descriptionText = ""
-        let unicodeText = ""
-        let tooltipText = ""
+        let decimalText = ''
+        let hexadecimalText = ''
+        let descriptionText = ''
+        let unicodeText = ''
+        let tooltipText = ''
         codePoints.forEach(codePoint => {
             const decimal = codePoint.toString()
-            if (decimalText.length > 0) { decimalText += ", " }
+            if (decimalText.length > 0) { decimalText += ', ' }
             decimalText += decimal
 
             const hexadecimal = toHexadecimal(codePoint)
-            if (hexadecimalText.length > 0) { hexadecimalText += ", " }
+            if (hexadecimalText.length > 0) { hexadecimalText += ', ' }
             hexadecimalText += hexadecimal
 
-            const unicode = "U+" + toHexadecimalLookup(codePoint)
-            if (unicodeText.length > 0) { unicodeText += ", " }
+            const unicode = 'U+' + toHexadecimalLookup(codePoint)
+            if (unicodeText.length > 0) { unicodeText += ', ' }
             unicodeText += unicode
 
             const description = getDescription(codePoint) 
-            if (descriptionText.length > 0) { descriptionText += ", " }
+            if (descriptionText.length > 0) { descriptionText += ', ' }
             descriptionText += description
 
-            const tooltip = unicode + "   " + hexadecimal + "   " + decimal + (!description.startsWith("U+") ? "\n" + description : "")
-            if (tooltipText.length > 0) { tooltipText += "\n\n" }
+            const tooltip = unicode + '   ' + hexadecimal + '   ' + decimal + (!description.startsWith('U+') ? '\n' + description : '')
+            if (tooltipText.length > 0) { tooltipText += '\n\n' }
             tooltipText += tooltip
         })
         lastCodePoints = codePoints
@@ -238,15 +238,15 @@ function activate(context) {
 
         var customConfiguration = vscode.workspace.getConfiguration('codepoint', null)
 
-        const newStatusbarStyleAsText = customConfiguration.get('statusbar', "hexadecimal").toLowerCase()
+        const newStatusbarStyleAsText = customConfiguration.get('statusbar', 'hexadecimal').toLowerCase()
         var newStatusbarStyle
-        if (newStatusbarStyleAsText.startsWith("none") || (newStatusbarStyleAsText === "")) {
+        if (newStatusbarStyleAsText.startsWith('none') || (newStatusbarStyleAsText === '')) {
             newStatusbarStyle = STATUSBARSTYLE_NONE
-        } else if (newStatusbarStyleAsText.startsWith("dec")) {
+        } else if (newStatusbarStyleAsText.startsWith('dec')) {
             newStatusbarStyle = STATUSBARSTYLE_DECIMAL
-        } else if (newStatusbarStyleAsText.startsWith("hex")) {
+        } else if (newStatusbarStyleAsText.startsWith('hex')) {
             newStatusbarStyle = STATUSBARSTYLE_HEXADECIMAL
-        } else if (newStatusbarStyleAsText.startsWith("desc")) {
+        } else if (newStatusbarStyleAsText.startsWith('desc')) {
             newStatusbarStyle = STATUSBARSTYLE_DESCRIPTION
         } else {
             newStatusbarStyle = STATUSBARSTYLE_UNICODE
