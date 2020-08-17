@@ -2,8 +2,9 @@
     "files.exclude": {
         ".vscode/": true,
         "node_modules/": true,
-        ".gitignore": true,
         ".eslintrc.json": true,
-        "jsconfig.json": true,
+        ".gitignore": true,
+	".vscodeignore": true,
+        "jsconfig.json": true
     }
 }
