@@ -64,6 +64,7 @@ mv "$TEMPORARY_DIRECTORY/unicode.descriptions.json" "$SCRIPT_DIRECTORY/../resour
 awk -Wposix '
     BEGIN {
         FS=";"
+        print "/** @param {number} cp */"
         print "function isCombiningMark(cp) {"
         firstCodeDec = 0
         firstCodeHex = 0
@@ -124,6 +125,7 @@ awk -Wposix '
     BEGIN {
         FS=";"
         firstCode = ""
+        print "/** @param {number} cp */"
         print "function getRangeDescription(cp) {"
     }
     NR>1 {
@@ -132,7 +134,7 @@ awk -Wposix '
         } else if (description ~ /, Last>$/) {
             gsub(/^</, "", description)
             gsub(/, Last>$/, "", description)
-            print "    if ((cp >= 0x" firstCode ") && (cp <= 0x" code ")) { return \"" toupper(description) "\" }"
+            print "    if ((cp >= 0x" firstCode ") && (cp <= 0x" code ")) { return \047" toupper(description) "\047 }"
         }
     }
     {
@@ -154,7 +156,7 @@ fi
 
 # Unicode JS
 
-echo '"use strict"' > "$TEMPORARY_DIRECTORY/unicode.js"
+echo "'use strict'" > "$TEMPORARY_DIRECTORY/unicode.js"
 echo >> "$TEMPORARY_DIRECTORY/unicode.js"
 cat "$TEMPORARY_DIRECTORY/unicode.combiningmarks.js" >> "$TEMPORARY_DIRECTORY/unicode.js"
 echo >> "$TEMPORARY_DIRECTORY/unicode.js"
