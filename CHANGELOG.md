@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.7.1]
+
+### Fixed
+- Security updates for libraries
+
+
 ## [1.7.0]
 
 ### Changed
