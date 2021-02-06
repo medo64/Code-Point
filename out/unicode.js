@@ -137,8 +137,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1A55) && (cp <= 0x1A5E)) { return true }
     if ((cp >= 0x1A60) && (cp <= 0x1A7C)) { return true }
     if (cp == 0x1A7F) { return true }
-    if ((cp >= 0x1AB0) && (cp <= 0x1AC4)) { return true }
-    if (cp == 0x1AC6) { return true }
+    if ((cp >= 0x1AB0) && (cp <= 0x1ACE)) { return true }
     if ((cp >= 0x1B00) && (cp <= 0x1B04)) { return true }
     if ((cp >= 0x1B34) && (cp <= 0x1B44)) { return true }
     if ((cp >= 0x1B6B) && (cp <= 0x1B73)) { return true }
@@ -204,6 +203,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x10D24) && (cp <= 0x10D27)) { return true }
     if ((cp >= 0x10EAB) && (cp <= 0x10EAC)) { return true }
     if ((cp >= 0x10F46) && (cp <= 0x10F50)) { return true }
+    if ((cp >= 0x10F82) && (cp <= 0x10F85)) { return true }
     if ((cp >= 0x11000) && (cp <= 0x11002)) { return true }
     if ((cp >= 0x11038) && (cp <= 0x11046)) { return true }
     if (cp == 0x11070) { return true }
@@ -317,7 +317,7 @@ function getRangeDescription(cp) {
     if ((cp >= 0x17000) && (cp <= 0x187F7)) { return 'TANGUT IDEOGRAPH' }
     if ((cp >= 0x18D00) && (cp <= 0x18D08)) { return 'TANGUT IDEOGRAPH SUPPLEMENT' }
     if ((cp >= 0x20000) && (cp <= 0x2A6DF)) { return 'CJK IDEOGRAPH EXTENSION B' }
-    if ((cp >= 0x2A700) && (cp <= 0x2B735)) { return 'CJK IDEOGRAPH EXTENSION C' }
+    if ((cp >= 0x2A700) && (cp <= 0x2B737)) { return 'CJK IDEOGRAPH EXTENSION C' }
     if ((cp >= 0x2B740) && (cp <= 0x2B81D)) { return 'CJK IDEOGRAPH EXTENSION D' }
     if ((cp >= 0x2B820) && (cp <= 0x2CEA1)) { return 'CJK IDEOGRAPH EXTENSION E' }
     if ((cp >= 0x2CEB0) && (cp <= 0x2EBE0)) { return 'CJK IDEOGRAPH EXTENSION F' }
