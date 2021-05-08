@@ -1,9 +1,16 @@
 # Change Log
 
+## [1.7.5]
+
+### Fixed
+- Security updates for dependencies
+
+
 ## [1.7.4]
 
 ### Fixed
 - Broken screenshots and links due to master to main branch move
+
 
 ## [1.7.3]
 
@@ -12,6 +19,7 @@
 
 ### Fixed
 - Security updates for libraries
+
 
 ## [1.7.2]
 
