@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.7.6]
+
+### Fixed
+- Security updates for dependencies
+
+
 ## [1.7.5]
 
 ### Fixed
