@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.7.7]
+
+### Changed
+- Using Unicode 14.0.0 (draft 13) data
+
+### Fixed
+- Security updates for dependencies
+
 ## [1.7.6]
 
 ### Fixed
