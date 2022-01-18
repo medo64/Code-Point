@@ -82,6 +82,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x0CCA) && (cp <= 0x0CCD)) { return true }
     if ((cp >= 0x0CD5) && (cp <= 0x0CD6)) { return true }
     if ((cp >= 0x0CE2) && (cp <= 0x0CE3)) { return true }
+    if (cp == 0x0CF3) { return true }
     if ((cp >= 0x0D00) && (cp <= 0x0D03)) { return true }
     if ((cp >= 0x0D3B) && (cp <= 0x0D3C)) { return true }
     if ((cp >= 0x0D3E) && (cp <= 0x0D44)) { return true }
@@ -100,7 +101,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x0E47) && (cp <= 0x0E4E)) { return true }
     if (cp == 0x0EB1) { return true }
     if ((cp >= 0x0EB4) && (cp <= 0x0EBC)) { return true }
-    if ((cp >= 0x0EC8) && (cp <= 0x0ECD)) { return true }
+    if ((cp >= 0x0EC8) && (cp <= 0x0ECE)) { return true }
     if ((cp >= 0x0F18) && (cp <= 0x0F19)) { return true }
     if (cp == 0x0F35) { return true }
     if (cp == 0x0F37) { return true }
@@ -202,6 +203,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x10AE5) && (cp <= 0x10AE6)) { return true }
     if ((cp >= 0x10D24) && (cp <= 0x10D27)) { return true }
     if ((cp >= 0x10EAB) && (cp <= 0x10EAC)) { return true }
+    if ((cp >= 0x10EFD) && (cp <= 0x10EFF)) { return true }
     if ((cp >= 0x10F46) && (cp <= 0x10F50)) { return true }
     if ((cp >= 0x10F82) && (cp <= 0x10F85)) { return true }
     if ((cp >= 0x11000) && (cp <= 0x11002)) { return true }
@@ -221,6 +223,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x111CE) && (cp <= 0x111CF)) { return true }
     if ((cp >= 0x1122C) && (cp <= 0x11237)) { return true }
     if (cp == 0x1123E) { return true }
+    if (cp == 0x11241) { return true }
     if ((cp >= 0x112DF) && (cp <= 0x112EA)) { return true }
     if ((cp >= 0x11300) && (cp <= 0x11303)) { return true }
     if ((cp >= 0x1133B) && (cp <= 0x1133C)) { return true }
@@ -268,6 +271,10 @@ function isCombiningMark(cp) {
     if ((cp >= 0x11D90) && (cp <= 0x11D91)) { return true }
     if ((cp >= 0x11D93) && (cp <= 0x11D97)) { return true }
     if ((cp >= 0x11EF3) && (cp <= 0x11EF6)) { return true }
+    if ((cp >= 0x11F00) && (cp <= 0x11F01)) { return true }
+    if (cp == 0x11F03) { return true }
+    if ((cp >= 0x11F34) && (cp <= 0x11F3A)) { return true }
+    if ((cp >= 0x11F3E) && (cp <= 0x11F42)) { return true }
     if ((cp >= 0x16AF0) && (cp <= 0x16AF4)) { return true }
     if ((cp >= 0x16B30) && (cp <= 0x16B36)) { return true }
     if (cp == 0x16F4F) { return true }
@@ -298,6 +305,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1E130) && (cp <= 0x1E136)) { return true }
     if (cp == 0x1E2AE) { return true }
     if ((cp >= 0x1E2EC) && (cp <= 0x1E2EF)) { return true }
+    if ((cp >= 0x1E4EC) && (cp <= 0x1E4EF)) { return true }
     if ((cp >= 0x1E8D0) && (cp <= 0x1E8D6)) { return true }
     if ((cp >= 0x1E944) && (cp <= 0x1E94A)) { return true }
     if ((cp >= 0xE0100) && (cp <= 0xE01EF)) { return true }
@@ -322,6 +330,7 @@ function getRangeDescription(cp) {
     if ((cp >= 0x2B820) && (cp <= 0x2CEA1)) { return 'CJK IDEOGRAPH EXTENSION E' }
     if ((cp >= 0x2CEB0) && (cp <= 0x2EBE0)) { return 'CJK IDEOGRAPH EXTENSION F' }
     if ((cp >= 0x30000) && (cp <= 0x3134A)) { return 'CJK IDEOGRAPH EXTENSION G' }
+    if ((cp >= 0x31350) && (cp <= 0x323AF)) { return 'CJK IDEOGRAPH EXTENSION H' }
     if ((cp >= 0xF0000) && (cp <= 0xFFFFD)) { return 'PLANE 15 PRIVATE USE' }
     return null
 }
