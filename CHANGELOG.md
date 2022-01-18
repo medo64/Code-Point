@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.8.0]
+
+### Changed
+- Using Unicode 15.0.0 (draft 3) data
+
+### Fixed
+- Security updates for dependencies
+
 ## [1.7.7]
 
 ### Changed
