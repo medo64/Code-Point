@@ -106,6 +106,7 @@ awk -Wposix '
         } else {
             print "    if ((cp >= 0x" firstCodeHex ") && (cp <= 0x" lastCodeHex ")) { return true }"
         }
+        print "    if ((cp >= 0x1F3FB) && (cp <= 0x1F3FF)) { return true }  // emoji modifiers"
         print "    return false"
         print "}"
         print "exports.isCombiningMark = isCombiningMark"

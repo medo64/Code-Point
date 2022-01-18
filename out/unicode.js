@@ -309,6 +309,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1E8D0) && (cp <= 0x1E8D6)) { return true }
     if ((cp >= 0x1E944) && (cp <= 0x1E94A)) { return true }
     if ((cp >= 0xE0100) && (cp <= 0xE01EF)) { return true }
+    if ((cp >= 0x1F3FB) && (cp <= 0x1F3FF)) { return true }  // emoji modifiers
     return false
 }
 exports.isCombiningMark = isCombiningMark
