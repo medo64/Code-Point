@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.8.1]
+
+### Changed
+- Properly parsing emoji skin color modifiers
+
 ## [1.8.0]
 
 ### Changed
