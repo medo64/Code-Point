@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Generator: Xara Designer (www.xara.com), SVG filter version: 6.6.0.1-->
+<svg fill="none" fill-rule="evenodd" stroke="black" stroke-width="0.501" stroke-linejoin="bevel" stroke-miterlimit="10" font-family="Times New Roman" font-size="16" style="font-variant-ligatures:none" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" overflow="visible" width="96pt" height="96pt" viewBox="0 -96 96 96">
+ <defs>
+	</defs>
+ <g id="Layer 1" transform="scale(1 -1)">
+  <path d="M 33.745,82.412 L 13.588,62.252 L 13.588,33.745 L 33.745,13.588 L 62.252,13.588 L 82.412,33.745 L 82.412,62.252 L 62.252,82.412 Z" fill="#7dd47f" stroke="none" stroke-width="2.647" fill-rule="nonzero" stroke-linejoin="miter" marker-start="none" marker-end="none"/>
+  <mask id="TranspMask">
+   <rect x="-10%" y="-10%" width="120%" height="120%" fill="#cccccc" stroke="none"/>
+  </mask>
+  <g id="Group" fill="#000000" fill-rule="nonzero" stroke-linejoin="miter" stroke="none" stroke-width="2.647" mask="url(#TranspMask)">
+   <path d="M 71.824,24.176 L 55.941,24.176 L 55.941,29.471 L 61.235,29.471 L 61.235,61.235 L 55.941,61.235 L 55.941,66.529 L 61.235,66.529 L 61.235,71.824 L 66.529,71.824 L 66.529,29.471 L 71.824,29.471 L 71.824,24.176 Z M 66.635,93 L 29.361,93 L 3,66.635 L 3,29.361 L 29.361,3 L 51.66,3 L 56.958,8.294 L 31.553,8.294 L 8.294,31.553 L 8.294,64.444 L 31.553,87.706 L 64.444,87.706 L 87.706,64.444 L 87.706,31.553 L 59.149,3 L 66.635,3 L 93,29.361 L 93,66.635 L 66.635,93 Z M 37.412,24.176 C 30.113,24.176 24.176,30.113 24.176,37.412 L 24.176,58.588 C 24.176,65.884 30.113,71.824 37.412,71.824 C 44.707,71.824 50.647,65.884 50.647,58.588 L 50.647,37.412 C 50.647,30.113 44.707,24.176 37.412,24.176 Z M 29.534,36.381 C 30.042,32.488 33.381,29.471 37.412,29.471 C 41.788,29.471 45.353,33.032 45.353,37.412 L 45.353,52.196 L 29.534,36.381 Z M 37.412,66.529 C 33.032,66.529 29.471,62.965 29.471,58.588 L 29.471,43.8 L 45.286,59.615 C 44.781,63.512 41.439,66.529 37.412,66.529 Z" marker-start="none" marker-end="none"/>
+  </g>
+ </g>
+</svg>
