@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.9.0]
+
+### Changed
+- Using Unicode 15.0.0 data
+### Fixed
+- Security updates for dependencies
+
 ## [1.8.4]
 
 ### Fixed
