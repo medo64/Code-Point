@@ -1,23 +1,37 @@
 # Change Log
 
+## [1.10.0]
+
+### Changed
+- Using Unicode 15.1.0 data
+
+### Fixed
+- Security updates for dependencies
+
+
 ## [1.9.0]
 
 ### Changed
 - Using Unicode 15.0.0 data
+
 ### Fixed
 - Security updates for dependencies
+
 
 ## [1.8.4]
 
 ### Fixed
 - Security updates for dependencies
 
+
 ## [1.8.3]
 
 ### Changed
 - Icon updated
+
 ### Fixed
 - Security updates for dependencies
+
 
 ## [1.8.2]
 
@@ -25,10 +39,12 @@
 - Using Unicode 15.0.0 (draft 4) data
 - Security updates for dependencies
 
+
 ## [1.8.1]
 
 ### Changed
 - Properly parsing emoji skin color modifiers
+
 
 ## [1.8.0]
 
@@ -38,6 +54,7 @@
 ### Fixed
 - Security updates for dependencies
 
+
 ## [1.7.7]
 
 ### Changed
@@ -45,6 +62,7 @@
 
 ### Fixed
 - Security updates for dependencies
+
 
 ## [1.7.6]
 

@@ -333,6 +333,7 @@ function getRangeDescription(cp) {
     if ((cp >= 0x2B740) && (cp <= 0x2B81D)) { return 'CJK IDEOGRAPH EXTENSION D' }
     if ((cp >= 0x2B820) && (cp <= 0x2CEA1)) { return 'CJK IDEOGRAPH EXTENSION E' }
     if ((cp >= 0x2CEB0) && (cp <= 0x2EBE0)) { return 'CJK IDEOGRAPH EXTENSION F' }
+    if ((cp >= 0x2EBF0) && (cp <= 0x2EE4A)) { return 'CJK IDEOGRAPH EXTENSION I' }
     if ((cp >= 0x30000) && (cp <= 0x3134A)) { return 'CJK IDEOGRAPH EXTENSION G' }
     if ((cp >= 0x31350) && (cp <= 0x323AF)) { return 'CJK IDEOGRAPH EXTENSION H' }
     if ((cp >= 0xF0000) && (cp <= 0xFFFFD)) { return 'PLANE 15 PRIVATE USE' }
