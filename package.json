@@ -71,6 +71,7 @@
     },
     "devDependencies": {
         "eslint": "^8.7.0",
-        "@vscode/test-electron": "^1.6.1"
+        "@vscode/vsce": "^2.15.0",
+        "@vscode/test-electron": "^2.3.3"
     }
 }
