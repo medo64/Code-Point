@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.11.0]
+
+### Changed
+- Using Unicode 16.0.0 data
+
+### Fixed
+- Depedency updates
+
+
 ## [1.10.0]
 
 ### Changed
