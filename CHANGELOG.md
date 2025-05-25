@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.13.0]
+
+### Changed
+- Unicode 17.0.0 data update
+
+### Fixed
+- Dependency updates
+
+
 ## [1.12.0]
 
 ### Changed
