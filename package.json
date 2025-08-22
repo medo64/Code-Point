@@ -3,7 +3,7 @@
     "displayName": "Unicode Code Point",
     "description": "Displays character's unicode code point in status bar.",
     "icon": "ICON.png",
-    "version": "1.13.0",
+    "version": "1.14.0",
     "publisher": "medo64",
     "galleryBanner": {
         "color": "#373E6D",
