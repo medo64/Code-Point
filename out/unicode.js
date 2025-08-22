@@ -61,7 +61,7 @@ function isCombiningMark(cp) {
     if ((cp >= 0x0B3E) && (cp <= 0x0B44)) { return true }
     if ((cp >= 0x0B47) && (cp <= 0x0B48)) { return true }
     if ((cp >= 0x0B4B) && (cp <= 0x0B4D)) { return true }
-    if ((cp >= 0x0B53) && (cp <= 0x0B57)) { return true }
+    if ((cp >= 0x0B55) && (cp <= 0x0B57)) { return true }
     if ((cp >= 0x0B62) && (cp <= 0x0B63)) { return true }
     if (cp == 0x0B82) { return true }
     if ((cp >= 0x0BBE) && (cp <= 0x0BC2)) { return true }
@@ -291,8 +291,6 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1611E) && (cp <= 0x1612F)) { return true }
     if ((cp >= 0x16AF0) && (cp <= 0x16AF4)) { return true }
     if ((cp >= 0x16B30) && (cp <= 0x16B36)) { return true }
-    if (cp == 0x16D98) { return true }
-    if (cp == 0x16D9D) { return true }
     if (cp == 0x16F4F) { return true }
     if ((cp >= 0x16F51) && (cp <= 0x16F87)) { return true }
     if ((cp >= 0x16F8F) && (cp <= 0x16F92)) { return true }
