@@ -9,6 +9,11 @@
         "color": "#373E6D",
         "theme": "dark"
     },
+    "files": [
+        "out/*",
+        "ICON.png",
+        "LICENSE.md"
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/medo64/code-point/issues/",
