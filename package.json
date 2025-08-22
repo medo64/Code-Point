@@ -3,7 +3,7 @@
     "displayName": "Unicode Code Point",
     "description": "Displays character's unicode code point in status bar.",
     "icon": "ICON.png",
-    "version": "1.14.0",
+    "version": "1.14.1",
     "publisher": "medo64",
     "galleryBanner": {
         "color": "#373E6D",
@@ -12,7 +12,8 @@
     "files": [
         "out/*",
         "ICON.png",
-        "LICENSE.md"
+        "LICENSE.md",
+        "package.json"
     ],
     "license": "MIT",
     "bugs": {
