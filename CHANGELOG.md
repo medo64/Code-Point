@@ -1,5 +1,23 @@
 # Change Log
 
+## [1.14.3]
+
+### Fixed
+- Dependency updates
+
+
+## [1.14.2]
+
+### Fixed
+- Dependency updates
+
+
+## [1.14.1]
+
+### Fixed
+- Dependency updates
+
+
 ## [1.14.0]
 
 ### Changed
