@@ -13,6 +13,7 @@
         "node_modules/",
         "out/",
         "resources/",
+        "CHANGELOG.md",
         "ICON.png",
         "LICENSE.md",
         "jsconfig.json",
