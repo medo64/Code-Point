@@ -7,6 +7,7 @@
 
 ### Fixed
 - Unicode 18.0.0 data update
+- Dependency updates
 
 
 ## [1.18.0]
