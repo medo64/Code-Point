@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.18.0]
+
+### Changed
+- Unicode 18.0.0 data update
+
+### Fixed
+- Readded changelog
+
+
 ## [1.14.3]
 
 ### Fixed
