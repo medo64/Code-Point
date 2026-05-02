@@ -58,6 +58,7 @@ function activate(context) {
 
     var statusbarStyle
     var statusbarStyleAsText
+    var highlightComposed
 
 
     /**
@@ -223,7 +224,13 @@ function activate(context) {
         })
         lastCodePoints = codePoints
 
-        switch(statusbarStyle) {
+        if (highlightComposed && (codePoints.length > 1)) {
+            statusBarItem.color = new vscode.ThemeColor('statusBarItem.warningForeground')
+        } else {
+            statusBarItem.color = undefined
+        }
+
+        switch (statusbarStyle) {
             case STATUSBARSTYLE_DECIMAL:
                 statusBarItem.text = decimalText
                 break
@@ -288,6 +295,12 @@ function activate(context) {
         if (statusbarStyleAsText !== newStatusbarStyleAsText) { //detect on text so it leaves statusbar click functionality alone
             statusbarStyleAsText = newStatusbarStyleAsText
             statusbarStyle = newStatusbarStyle
+            anyChanges = true
+        }
+
+        const newHighlightComposed = customConfiguration.get('highlightComposed', false)
+        if (highlightComposed != newHighlightComposed) {
+            highlightComposed = newHighlightComposed
             anyChanges = true
         }
 

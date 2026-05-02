@@ -63,6 +63,11 @@
                             "unicode+description"
                         ],
                         "description": "Determines what gets shown in statusbar by default."
+                    },
+                    "codepoint.highlightComposed": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "If set, status bar will be highlighted if composed character is detected."
                     }
                 }
             }

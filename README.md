@@ -24,6 +24,9 @@ This extension contributes the following settings:
   * `hexadecimal`: Hexadecimal value of code point (e.g. `0x4D`);
   * `unicode`: Unicode code point (e.g. `U+004D`);
   * `description`: Full description is shown (e.g. `LATIN CAPITAL LETTER M`).
+* `codepoint.highlightComposed`: Determines statusbar highlighting:
+  * `false`: No statusbar highlighting is done;;
+  * `true`: Statusbar is highlighted if current character is result of multiple code points.
 
 
 ## Known Issues
