@@ -52,7 +52,7 @@ function activate(context) {
         clearTimeout(doubleClickTimerId) //cancel timer
         doubleClickTimerId = undefined
 
-        statusbarStyle = (statusbarStyle + 1) % 5 //advance to next display style
+        statusbarStyle = (statusbarStyle + 1) % 5 //advance to the next display style
         updateStatusbar(vscode.window.activeTextEditor)
     }
 
@@ -285,7 +285,7 @@ function activate(context) {
             newStatusbarStyle = STATUSBARSTYLE_UNICODE
         }
 
-        if (statusbarStyleAsText !== newStatusbarStyleAsText) { //detect on text so it leaves statubar click functionality alone
+        if (statusbarStyleAsText !== newStatusbarStyleAsText) { //detect on text so it leaves statusbar click functionality alone
             statusbarStyleAsText = newStatusbarStyleAsText
             statusbarStyle = newStatusbarStyle
             anyChanges = true
