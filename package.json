@@ -59,7 +59,8 @@
                             "decimal",
                             "hexadecimal",
                             "unicode",
-                            "description"
+                            "description",
+                            "unicode+description"
                         ],
                         "description": "Determines what gets shown in statusbar by default."
                     }

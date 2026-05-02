@@ -52,7 +52,7 @@ function activate(context) {
         clearTimeout(doubleClickTimerId) //cancel timer
         doubleClickTimerId = undefined
 
-        statusbarStyle = (statusbarStyle + 1) % 4 //advance to next display style
+        statusbarStyle = (statusbarStyle + 1) % 5 //advance to next display style
         updateStatusbar(vscode.window.activeTextEditor)
     }
 
@@ -127,15 +127,16 @@ function activate(context) {
     }
 
     /** @param {number} codePoint */
-    function getDescription(codePoint) {
+    /** @param {boolean} includeUnicode */
+    function getDescription(codePoint, includeUnicode) {
         const unicodeHex = toHexadecimalLookup(codePoint)
         const description = unicodeDescriptions[unicodeHex]
         if (description) {
-            return description
+            return includeUnicode ? 'U+' + unicodeHex + ' ' + description : description
         } else {
             const rangeDescription = unicode.getRangeDescription(codePoint)
             if (rangeDescription) {
-                return rangeDescription + ' ' + unicodeHex
+                return 'U+' + unicodeHex + ' ' + rangeDescription
             } else {
                 return 'U+' + unicodeHex
             }
@@ -213,7 +214,7 @@ function activate(context) {
             if (unicodeText.length > 0) { unicodeText += ', ' }
             unicodeText += unicode
 
-            const description = getDescription(codePoint) 
+            const description = getDescription(codePoint, false)
             if (descriptionText.length > 0) { descriptionText += ', ' }
             descriptionText += description
 
@@ -233,6 +234,18 @@ function activate(context) {
             case STATUSBARSTYLE_DESCRIPTION:
                 statusBarItem.text = descriptionText
                 break
+            case STATUSBARSTYLE_UNICODE:
+                statusBarItem.text = unicodeText
+                break
+            case STATUSBARSTYLE_UNICODEDESCRIPTION:
+                let longDescriptionText = ''
+                codePoints.forEach(codePoint => {
+                    const longDescription = getDescription(codePoint, true)
+                    if (longDescriptionText.length > 0) { longDescriptionText += ', ' }
+                    longDescriptionText += longDescription
+                })
+                statusBarItem.text = longDescriptionText
+                break
             default:
                 statusBarItem.text = unicodeText
                 break
@@ -250,6 +263,7 @@ function activate(context) {
     const STATUSBARSTYLE_HEXADECIMAL = 1
     const STATUSBARSTYLE_UNICODE = 2
     const STATUSBARSTYLE_DESCRIPTION = 3
+    const STATUSBARSTYLE_UNICODEDESCRIPTION = 4
 
     function updateConfiguration() {
         var anyChanges = false
@@ -266,6 +280,8 @@ function activate(context) {
             newStatusbarStyle = STATUSBARSTYLE_HEXADECIMAL
         } else if (newStatusbarStyleAsText.startsWith('desc')) {
             newStatusbarStyle = STATUSBARSTYLE_DESCRIPTION
+        } else if (newStatusbarStyleAsText.startsWith('uni') && newStatusbarStyleAsText.includes('desc')) {
+            newStatusbarStyle = STATUSBARSTYLE_UNICODEDESCRIPTION
         } else {
             newStatusbarStyle = STATUSBARSTYLE_UNICODE
         }

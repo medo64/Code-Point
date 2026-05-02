@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.18.1]
+
+### Changed
+- added additional style (unicode+description)
+
+### Fixed
+- Unicode 18.0.0 data update
+
+
 ## [1.18.0]
 
 ### Changed
