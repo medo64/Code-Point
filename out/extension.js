@@ -127,12 +127,11 @@ function activate(context) {
     }
 
     /** @param {number} codePoint */
-    /** @param {boolean} includeUnicode */
-    function getDescription(codePoint, includeUnicode) {
+    function getDescription(codePoint) {
         const unicodeHex = toHexadecimalLookup(codePoint)
         const description = unicodeDescriptions[unicodeHex]
         if (description) {
-            return includeUnicode ? 'U+' + unicodeHex + ' ' + description : description
+            return description
         } else {
             const rangeDescription = unicode.getRangeDescription(codePoint)
             if (rangeDescription) {
@@ -214,7 +213,7 @@ function activate(context) {
             if (unicodeText.length > 0) { unicodeText += ', ' }
             unicodeText += unicode
 
-            const description = getDescription(codePoint, false)
+            const description = getDescription(codePoint)
             if (descriptionText.length > 0) { descriptionText += ', ' }
             descriptionText += description
 
@@ -240,7 +239,7 @@ function activate(context) {
             case STATUSBARSTYLE_UNICODEDESCRIPTION:
                 let longDescriptionText = ''
                 codePoints.forEach(codePoint => {
-                    const longDescription = getDescription(codePoint, true)
+                    const longDescription = 'U+' + toHexadecimalLookup(codePoint) + ' ' + getDescription(codePoint)
                     if (longDescriptionText.length > 0) { longDescriptionText += ', ' }
                     longDescriptionText += longDescription
                 })
