@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.18.2]
+
+### Fixed
+- Unicode 18.0.0 data update
+- Dependency updates
+
 ## [1.18.1]
 
 ### Changed
