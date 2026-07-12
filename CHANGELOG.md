@@ -1,5 +1,12 @@
 # Change Log
 
+
+## [1.18.3]
+
+### Fixed
+- Dependency updates
+
+
 ## [1.18.2]
 
 ### Fixed
