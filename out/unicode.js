@@ -292,8 +292,6 @@ function isCombiningMark(cp) {
     if ((cp >= 0x1611E) && (cp <= 0x1612F)) { return true }
     if ((cp >= 0x16AF0) && (cp <= 0x16AF4)) { return true }
     if ((cp >= 0x16B30) && (cp <= 0x16B36)) { return true }
-    if (cp == 0x16D98) { return true }
-    if (cp == 0x16D9D) { return true }
     if (cp == 0x16F4F) { return true }
     if ((cp >= 0x16F51) && (cp <= 0x16F87)) { return true }
     if ((cp >= 0x16F8F) && (cp <= 0x16F92)) { return true }
